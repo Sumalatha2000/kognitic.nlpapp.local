@@ -1,0 +1,126 @@
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle tempe
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({tempe within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("tempe");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finalpe",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle tempe
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({tempe within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("tempe");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finalpe",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria344
+Input: Criteria tempe
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({tempe within Criteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("tempe");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","Criteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finalpe",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria342
+Input: InclusionCriteria tempe
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({tempe within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("tempe");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","InclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finalpe",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria343
+Input: ExclusionCriteria tempe
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({tempe within ExclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("tempe");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","ExclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finalpe",features);
+}
+}

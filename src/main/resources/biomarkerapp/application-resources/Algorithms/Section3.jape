@@ -1,0 +1,27 @@
+Phase: OriginalMarkup2
+Input: Sentence AllLAGKeyWord
+Options: control = appelt
+
+Rule: SentRule
+(
+({AllLAGKeyWord within Sentence})
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+String matchedString = mydocContent.substring(cstartpos,cend);
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Sentence", matchedString);
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"LAGSentence",features);
+}
+}

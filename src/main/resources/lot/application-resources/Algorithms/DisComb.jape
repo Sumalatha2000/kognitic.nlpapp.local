@@ -1,0 +1,63 @@
+Phase: SectionEnd
+Input: Lt Prefix Number SentEnd Token
+Options: control = appelt
+
+Rule: comb
+(
+(
+({Lt})
+({Token, Token.string != "."})[0,25]
+({Prefix})
+({Token, Token.string != "."})[0,25]
+({Number})
+)|
+(
+({Prefix})
+({Token, Token.string != "."})[0,10]
+({Number})
+({Token, Token.string != "."})[0,10]
+({Lt})
+)|
+(
+({Token.string == "ND"}|{Token.string == "NDMM"})
+)|
+(
+({Token, Token.string != "."})[0,25]
+({Lt})
+({Number})
+({Token, Token.string != "."})[0,25]
+)
+):line
+-->
+:line.LoT = {Rule = "comb", Text = :line@cleanString, Lt = :line.Lt.Text,Prefix = :line.Prefix.Text, Number = :line.Number.Text}
+
+Phase: comb2
+Input: Lt Number SentEnd Token SectionEnd
+Options: control = appelt
+
+Rule: comb
+(
+({Token, Token.string != "."})[0,25]
+({Number})
+({Token, Token.string != "."})
+({Number}):mnumber
+({Lt})
+({Token, Token.string != "."})[0,25]
+):line
+-->
+:line.LoT = {Rule = "comb2", Text = :line@cleanString, Lt = :line.Lt.Text,Prefix = :line.Prefix.Text, Number = :mnumber.Number.Text}
+
+Phase: comb3
+Input: Lt Number SentEnd Token Prefix SectionEnd
+Options: control = appelt
+
+Rule: comb
+(
+({Prefix})
+({Number})
+({Lt})
+({Token, Token.string != "."})[1,5]
+({Number}):mnumber
+):line
+-->
+:line.LoT = {Rule = "comb3", Text = :line@cleanString, Lt = :line.Lt.Text,Prefix = :line.Prefix.Text, Number = :mnumber.Number.Text}

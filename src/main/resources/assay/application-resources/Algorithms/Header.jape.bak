@@ -1,0 +1,209 @@
+Phase: SectionEnd123
+Input: Token
+Options: control = appelt
+Rule: endline
+(
+({Token.string ==~ "(?i)circulating"}{Token.string ==~ "(?i)tumor"}{Token.string ==~ "(?i)DNA"}):line
+)
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Phase: SectionEnd1234
+Input: RemoveToken
+Options: control = appelt
+Rule: removebreakline
+(
+{RemoveToken}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet RemoveToken = totalset.get("RemoveToken");
+inputAS.removeAll(totalset);
+}
+}
+
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Headings
+(
+{Lookup.majorType == "bmarker"}
+):Heading
+-->
+:Heading.BioMarker = {Rule = "Headings", BText = :Heading@cleanString, Rule = "Headings", Type = "Biomarker"}
+
+Rule: Headings2
+(
+{Lookup.majorType == "assay"}
+):Heading
+-->
+:Heading.AssayTest = {Rule = "Headings", AText = :Heading@cleanString,Rule = "Headings2", Type = "AssayTest"}
+
+Rule: Headings3
+(
+{Lookup.majorType == "specimen"}
+):Heading
+-->
+:Heading.Specimen = {Rule = "Headings", SText = :Heading@cleanString,Rule = "Headings2", Type = "Specimen"}
+
+Rule: Headings10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Headings10", Text = :criteria@cleanString}
+
+Rule: Headings11
+(
+{Lookup.majorType == "object"}
+):object
+-->
+:object.Objectives = {Rule = "Headings10", Text = :object@cleanString}
+
+Phase: GenderAnnot
+Input: gender
+Options: control = brill
+Rule: GenderRule
+({gender}):fp
+-->
+:fp.Gender = {Rule = "GenderRule",Text = :fp@cleanString}
+
+Phase: SectionEnd1234
+Input: Gender
+Options: control = appelt
+Rule: removebreakline
+(
+{Gender}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet Gender = totalset.get("Gender");
+inputAS.removeAll(totalset);
+}
+}
+
+Phase: GenderAnnot231
+Input: Token Sentence SectionEnd Gender
+Options: control = brill
+
+Rule: GenderRule
+({SectionEnd})
+(({Token.string == "-"})|({Token.kind == "number"}{Token.string == "."})):fp
+-->
+:fp.Bullets = {Rule = "GenderRule",Text = :fp@cleanString}
+
+Rule: Headings2
+(
+({Token.string == "PCR"})
+):Heading
+-->
+:Heading.AssayTest = {Rule = "PCR Rule", AText = :Heading@cleanString,Rule = "Headings2", Type = "AssayTest"}
+
+Phase: SectionEnd1234
+Input: Bullets
+Options: control = appelt
+Rule: removebreakline
+(
+{Bullets}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet Bullets = totalset.get("Bullets");
+inputAS.removeAll(totalset);
+if (Bullets != null && !Bullets.isEmpty()){
+ArrayList flist = new ArrayList(Bullets);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"BBullets",features);
+}
+}
+}
+}
+
+Phase: GenderAnnot121
+Input: BBullets Token
+Options: control = appelt
+Rule: GenderRule
+(
+({BBullets})
+(({Token})*):fp
+({BBullets})
+):tt
+-->
+:fp.BulletSentence = {Rule = "GenderRule",Sentence = :fp@cleanString}
+
+
+Phase: GenderAnnot121231
+Input: BulletSentence BioMarker
+Options: control = appelt
+Rule: GenderRule
+({BulletSentence contains BioMarker}):fp
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("fp");
+AnnotationSet UnitSet = (AnnotationSet)units.get("BulletSentence");
+
+
+AnnotationSet allSet = inputAS.get(gate.Utils.start(units),gate.Utils.end(units));
+AnnotationSet SAset = allSet.get("BioMarker");
+
+Annotation SAann = (gate.Annotation)SAset.iterator().next();
+String MatchedSent = (String)SAann.getFeatures().get("Sentence");
+Annotation Bann = (gate.Annotation)SAset.iterator().next();
+String Biomarker = (String)Bann.getFeatures().get("BText");
+
+
+
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Biomarker", Biomarker);
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"BioSentence",features);
+}
+}

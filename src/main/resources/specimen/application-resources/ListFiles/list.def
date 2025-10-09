@@ -1,0 +1,14 @@
+post_negation.lst:postNeg
+pre_negation.lst:preNeg
+suspect.lst:suspect
+breakwords.lst:brekwords
+complementary.lst:comp
+positive.lst:pos
+criteria.lst:criteria
+objectives.lst:object
+Inclusioncomplementary.lst:inclcom
+doubt.lst:doubt
+assay.lst:assay
+biomarkers.lst:bmarker
+specificassay.lst:sassay
+specimen.lst:specimen

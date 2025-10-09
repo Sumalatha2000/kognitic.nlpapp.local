@@ -1,0 +1,115 @@
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+Phase: CoomaEnd
+Input: Token
+Options: control = appelt
+
+Rule: Comma
+(
+({Token.string == ","}):line
+)
+-->
+:line.Comma = {Rule = "Comma"}
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Ecog
+(
+{Lookup.majorType == "ecog"}
+):Heading
+-->
+:Heading.Ecog = {Ecog = :Heading@cleanString, Rule = "Ecog"}
+
+Rule: Criteria10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Criteria10", Text = :criteria@cleanString}
+
+Rule: therapy
+(
+{Lookup.majorType == "therapy"}
+):therapy
+-->
+:therapy.tpy = {Rule = "therapy", Text = :therapy@cleanString}
+
+Rule: drugs
+(
+{Lookup.majorType == "drugs"}
+):drugs
+-->
+:drugs.Drugs = {Rule = "drugs", Text = :drugs@cleanString}
+
+Phase: SectionEnd
+Input: oversight_info
+Options: control = appelt
+
+Rule: OsInfo
+(  
+{oversight_info}
+):end
+-->  
+:end.OversightInfo = {rule = "OsInfo"}
+
+Phase: GenderAnnot121231
+Input: Sentence Ecog
+Options: control = appelt
+Rule: GenderRule
+({Sentence contains Ecog}):fp
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("fp");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Sentence");
+
+
+AnnotationSet allSet = inputAS.get(gate.Utils.start(units),gate.Utils.end(units));
+AnnotationSet SAset = allSet.get("Ecog");
+
+Annotation SAann = (gate.Annotation)SAset.iterator().next();
+String MatchedSent = (String)SAann.getFeatures().get("Sentence");
+Annotation Bann = (gate.Annotation)SAset.iterator().next();
+String Ecog = (String)Bann.getFeatures().get("Ecog");
+
+
+
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Ecog", Ecog);
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"EcogSentence",features);
+}
+}

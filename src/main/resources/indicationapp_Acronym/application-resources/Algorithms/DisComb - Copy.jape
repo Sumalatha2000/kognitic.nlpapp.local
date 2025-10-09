@@ -1,0 +1,39 @@
+Phase: SectionEnd
+Input: Site Disease Site2 EndOfLine Disease1 Brekwords
+Options: control = appelt
+
+Rule: comb
+(
+(
+({Disease1})
+)|
+(
+({Disease}{Site})
+({Site})?
+)|
+(
+({Site2}|{Site})?
+({Site}{Disease})
+)|
+(
+({Site}{Site}{Disease})
+)|
+
+(
+({Site}{Site2}{Disease})
+)|
+
+(
+({Site}|{Site2})
+({Disease})
+({Site}|{Site2})
+)|
+
+(
+({Site})?
+({Site2}{Disease})
+)
+):line
+-->
+:line.Indications = {Rule = "comb", Text = :line@cleanString, Finding = "Positive"}
+

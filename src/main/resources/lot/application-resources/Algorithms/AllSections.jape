@@ -1,0 +1,101 @@
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle LoT
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({LoT within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("LoT");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLot",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle LoT
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({LoT within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("LoT");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLot",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria34
+Input: InclusionCriteria LoT
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({LoT within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("LoT");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","InclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLot",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria34
+Input: ExclusionCriteria LoT
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({LoT within ExclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("LoT");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","ExclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLot",features);
+}
+}

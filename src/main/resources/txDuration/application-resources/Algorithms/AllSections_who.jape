@@ -1,0 +1,154 @@
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle therapy
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({therapy within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("therapy");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finaltherapy",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle therapy
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({therapy within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("therapy");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finaltherapy",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Condition therapy
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({therapy within Condition})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("therapy");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Disease = (String)headann.getFeatures().get("Disease");
+String Site = (String)headann.getFeatures().get("Site");
+String Site2 = (String)headann.getFeatures().get("Site2");
+String Tconcept = (String)headann.getFeatures().get("Tconcept");
+String Population = (String)headann.getFeatures().get("Population");
+
+features.put("Text",FinalText);
+features.put("Disease",Disease);
+features.put("Site",Site);
+features.put("Site2",Site2);
+features.put("Section","Condition");
+features.put("Rule","SectionHigh12");
+features.put("Finding","Positive");
+features.put("Tconcept",Tconcept);
+features.put("Population",Population);
+
+outputAS.add(units.firstNode(),units.lastNode(),"Finaltherapy", features);
+}
+
+
+Phase: OriginalMarkupTrailcriteria34
+Input: InclusionCriteria therapy
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({therapy within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("therapy");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","InclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finaltherapy",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria99996
+Input: Intervention therapy
+Options: control = appelt
+
+Rule: SectionHigh151
+(
+({therapy within Intervention})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("therapy");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Disease = (String)headann.getFeatures().get("Disease");
+String Site = (String)headann.getFeatures().get("Site");
+String Site2 = (String)headann.getFeatures().get("Site2");
+String Tconcept = (String)headann.getFeatures().get("Tconcept");
+String Population = (String)headann.getFeatures().get("Population");
+
+features.put("Text",FinalText);
+features.put("Disease",Disease);
+features.put("Site",Site);
+features.put("Site2",Site2);
+features.put("Section","Intervention");
+features.put("Rule","SectionHigh12");
+features.put("Finding","Positive");
+features.put("Tconcept",Tconcept);
+features.put("Population",Population);
+
+outputAS.add(units.firstNode(),units.lastNode(),"Finaltherapy", features);
+}

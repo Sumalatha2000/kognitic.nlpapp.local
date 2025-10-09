@@ -1,0 +1,938 @@
+Header.jape
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = all
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+Phase: SectionEnd
+Input: Split
+Options: control = all
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+
+Phase: SectionHeading
+Input: Lookup Token
+Options: control = brill
+
+Rule: Headings
+(
+({Lookup.majorType == "heading"})
+({Token.string == ":"})?
+):Heading
+-->
+:Heading.SectionHeadings2 = {Rule = "Headings", Text = :Heading@cleanString}
+
+Rule: Deviations
+(
+{Lookup.majorType == "FHeading"}
+):Heading
+-->
+:Heading.FHeading = {Rule = "Deviations", Text = :Heading@cleanString}
+
+Rule: Negwords
+(
+{Lookup.majorType == "ntw"}
+):Heading
+-->
+:Heading.Nwords = {Rule = "Negwords", Text = :Heading@cleanString}
+
+Rule: Risks
+(
+{Lookup.majorType == "deviations"}
+):deviations
+-->
+:deviations.Deviations = {Rule = "Risks", Text = :deviations@cleanString}
+
+Rule: Questions
+(
+{Lookup.majorType == "ques"}
+):que
+-->
+:que.Questions234 = {Rule = "Questions234", Text = :que@cleanString}
+
+Rule: SecHead
+(
+{Lookup.majorType == "queshead"}
+):head
+-->
+:head.SecHead = {Rule = "SecHead", Text = :head@cleanString}
+
+Rule: genralcomment
+(
+{Lookup.majorType == "gc"}
+):gcom
+-->
+:gcom.GC = {Rule = "genralcomment", Text = :gcom@cleanString}
+
+Rule: Negwords
+(
+{Lookup.majorType == "srs"}
+):Heading
+-->
+:Heading.SignrSymptoms = {Rule = "Negwords", SnSText = :Heading@cleanString}
+
+
+Phase: FinalSectionHeadingsend
+Input: SectionHeadings2 EndOfLine Token
+Options: control = brill
+
+Rule: FSH
+(
+({EndOfLine})
+({SectionHeadings2})
+):msh
+-->
+:msh.SectionHeadings = {Rule = "FSH", Text = :msh@cleanString}
+
+
+Phase: Conjunctions
+Input: Token
+Options: control = brill
+
+Rule: Coma
+(
+({Token.string == ","}):com
+)
+-->
+:com.Comma = {Rule = "Coma", Text = :com@cleanString}
+
+Rule: CombAnd
+(
+({Token.string ==~ "(?i)and"}):and
+)
+-->
+:and.Comband = {Rule = "CombAnd", Text = :and@cleanString}
+
+Rule: SubjectHeadings
+(
+({Token.string == "Subject"})
+({Token.string == "No"})
+({Token.string == "."}{Token.string == ":"})
+(
+({Token.kind == "number"})
+({Token.string == "-"})
+({Token.kind == "number"})
+({Token.string == ":"})
+):subno
+):SubHead
+-->
+:SubHead.SubjectHeading = {Rule = "SubjectHeadings", Text = :SubHead@cleanString}
+
+Rule: SubjectHeadings2
+(
+({Token.string == "Subject"})
+(
+({Token.kind == "number"})
+({Token.string == "-"})
+({Token.kind == "number"})
+({Token.string == ":"})
+):subno
+):SubHead
+-->
+:SubHead.SubjectHeading = {Rule = "SubjectHeadings", Text = :SubHead@cleanString}
+
+
+Phase: FinalSectionHeadings
+Input: Token Sentence EndOfLine
+Options: control = brill
+
+Rule: FinalSecHead
+({EndOfLine})
+(
+({Token.kind == "number"})
+({Token.string == "."})
+({Sentence})
+({EndOfLine})
+):FAMH
+-->
+:FAMH.FinalMainHeading = {Rule = "FinalSecHead", Heading = :FAMH@cleanString}
+
+
+Phase: FinalSectionHeadings2
+Input: Token Sentence EndOfLine
+Options: control = brill
+
+Rule: FinalSecHead
+({EndOfLine})
+(
+({Token.length == 1,Token.orth == "upperInitial"}{Token.string == "."})
+({Sentence})
+({EndOfLine})
+):FAMH
+-->
+:FAMH.FinalMainHeading = {Rule = "FinalSecHead", Heading = :FAMH@cleanString}
+
+
+Phase: AlldataPoints234
+Input: SectionHeadings Sentence
+Options: control = appelt
+
+Rule: PIN
+(  
+{SectionHeadings.Text == "Investigator:"}
+(({Sentence})
+):iname
+):end
+-->  
+:end.Investigator = {rule = "PIN", PIName = :iname@cleanString}
+
+
+/*
+Phase: Sechead2
+Input: Lookup EndOfLine
+Options: control = brill
+
+Rule: MaiHeadings234
+(
+({EndOfLine})
+({Lookup.majorType == "Headings"}):word
+({EndOfLine})
+):word2
+-->
+:word2.FinalSectionHeadings = {Rule = "MaiHeadings234", Text = :word@cleanString}
+*/
+
+Phase: KeyWordDetection
+Input: Lookup EndOfLine Token
+Options: control = brill
+
+Rule: MaiHeadings
+(
+({EndOfLine})
+({Token.kind == "number"})
+({Token.string == "."})?
+({Lookup.majorType == "Headings"}):word
+):word2
+({EndOfLine})
+-->
+:word2.FinalSectionHeadings = {Rule = "MaiHeadings", Text = :word@cleanString}
+
+
+Phase: FinalSectionHeadings2
+Input: Token SecHead EndOfLine Lookup
+Options: control = brill
+
+Rule: FinalSecHead2
+({EndOfLine})
+(
+({Token.kind == "number"})
+({EndOfLine})
+({Lookup.majorType == "Headings"}):FAMH
+):FAMH2
+-->
+:FAMH2.FinalSectionHeadings = {Rule = "FinalSecHead2", Text = :FAMH@cleanString}
+
+
+
+Phase: FinalSectionHeadings2
+Input: Token SecHead Lookup EndOfLine
+Options: control = brill
+Rule: FinalSecHead3
+({EndOfLine})
+(
+({Token.orth == "upperInitial"}{Token.string == "."})
+({Lookup.majorType == "Headings"}):FAMH
+):FAMH2
+-->
+:FAMH2.FinalSectionHeadings = {Rule = "FinalSecHead3", Text = :FAMH@cleanString}
+Phase: SectionHeading2
+Input: Lookup
+Options: control = appelt
+
+Rule: Deviations
+(
+{Lookup.majorType == "FHeading"}
+):Heading
+-->
+:Heading.FHeading = {Rule = "Deviations", Text = :Heading@cleanString}
+
+Rule: Deviations2
+(
+{Lookup.majorType == "Headings"}
+):Heading
+-->
+:Heading.FHeading2 = {Rule = "Deviations", Text = :Heading@cleanString}
+
+/*
+Phase: Para
+Input: EndOfLine Sentence SectionEnd
+Options: control = appelt
+
+Rule: Para
+({EndOfLine})
+(({Sentence})+):line
+({SectionEnd})
+-->
+:line.AAAPara = {Rule = "Para", Text = :line@cleanString}
+*/
+
+Phase: Para
+Input: p
+Options: control = all
+
+Rule: Para
+({p}):line
+-->
+:line.Paragraph = {Rule = "Para",Text = :line@cleanString}
+
+
+Phase: QuestionMarkremove2
+Input: Nwords
+Options: control = appelt
+
+Rule: removerule2321
+(
+({Nwords})
+):ques
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("ques");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+inputAS.removeAll(totalset);
+}
+}
+
+
+Phase: PatientId
+Input: Token
+Options: control = brill
+
+Rule: SubId
+(
+({Token.string =~ "(?i)subject"})
+({Token.string =~ "(?i)id"})
+({Token.kind == "number"})
+):Sid
+-->
+:Sid.SubJectID = {Rule = "SubId", sid = :Sid@cleanString}
+
+Rule: SubId2
+(
+({Token.string =~ "(?i)subject"})
+({Token.kind == "number"})
+):Sid
+-->
+:Sid.SubJectID = {Rule = "SubId2", sid = :Sid@cleanString}
+
+Rule: SubId3
+(
+({Token.string =~ "(?i)subject"})
+({Token.string =~ "(?i)id"})
+({Token.string == ":"})	
+(({Token.kind == "number"})
+({Token.string == ","})
+)*
+({Token.string == "and"})
+({Token.kind == "number"})
+):Sid
+-->
+:Sid.SubJectID = {Rule = "SubId3", sid = :Sid@cleanString}
+
+Rule: SubId4
+(
+({Token.string =~ "(?i)subjects"})
+({Token.string =~ "(?i)id"})
+(({Token.kind == "number"})
+({Token.string == ","})
+)*
+({Token.string == "and"})
+({Token.kind == "number"})
+({Token.string == "."})
+):Sid
+-->
+:Sid.SubJectID = {Rule = "SubId4", sid = :Sid@cleanString}
+
+Rule: SubId5
+(
+({Token.string =~ "(?i)subject"})
+({Token.string =~ "(?i)no"})
+({Token.kind == "number"})
+):Sid
+-->
+:Sid.SubJectID = {Rule = "SubId5", sid = :Sid@cleanString}
+
+
+Rule: SubId6
+(
+({Token.string =~ "(?i)subject"})
+({Token.string =~ "(?i)id"})
+({Token.string =~ "(?i):"})
+({Token.kind == "number"})
+):Sid
+-->
+:Sid.SubJectID = {Rule = "SubId6", sid = :Sid@cleanString}
+Metadata
+Phase: Phase35
+Input: Sentence SectionHeadings SpaceToken 
+Options: control = appelt
+Rule:sentence
+(
+({Sentence})
+):sent
+-->
+{
+AnnotationSet matchedAnns = bindings.get("sent");
+String mydocContent = doc.getContent().toString();
+String matchedString = mydocContent.substring(matchedAnns.firstNode().getOffset().intValue(), matchedAnns.lastNode().getOffset().intValue());
+FeatureMap newFeatures = Factory.newFeatureMap();
+newFeatures.put("Name", matchedString);
+outputAS.add(matchedAnns.firstNode(), matchedAnns.lastNode(),"Sentence1", newFeatures);
+}
+Rule: NegHeading
+(
+({SectionHeadings})
+({SpaceToken})
+):neg
+-->
+{
+}
+
+
+Phase: AlldataPoints
+Input: Sentence1 SectionHeadings
+Options: control = appelt
+
+Rule: PSNo
+ 
+({SectionHeadings.Text == "Report Date"}({SectionHeadings.Text == "Visit Date (s)"}|{SectionHeadings.Text == "Visit Date"}|{SectionHeadings.Text == "Visit Date(s)"}){SectionHeadings.Text == "Prior Visit Date"})
+(
+({Sentence1})[1,4]
+):studyno
+
+-->  
+{
+
+AnnotationSet all = (AnnotationSet)bindings.get("studyno");
+FeatureMap newFeatures = Factory.newFeatureMap();
+
+AnnotationSet headset = all.get("Sentence1");
+ArrayList packList = new ArrayList (headset);
+Collections.sort (packList, new OffsetComparator());
+for(int i=0;i<packList.size();i++)
+{
+
+	switch(i)
+	{
+	 case 0:Annotation packAnn=(Annotation)packList.get(i);
+			newFeatures.put("monitor",(String)packAnn.getFeatures().get("Name"));
+	 case 1:Annotation packAnn1=(Annotation)packList.get(i);
+			newFeatures.put("reportdate",(String)packAnn1.getFeatures().get("Name"));
+	 case 2:Annotation packAnn2=(Annotation)packList.get(i);
+			newFeatures.put("visitdata",(String)packAnn2.getFeatures().get("Name"));
+	 case 3:Annotation packAnn3=(Annotation)packList.get(i);
+			newFeatures.put("pvisitdata",(String)packAnn3.getFeatures().get("Name"));
+	}
+}
+outputAS.add(all.firstNode(), all.lastNode(),"MetaData", newFeatures);
+}
+
+Rule: PSNo2
+ 
+({SectionHeadings.Text == "Study Number"}{SectionHeadings.Text == "Investigator Name"}{SectionHeadings.Text == "Site Number"})
+(
+({Sentence1})[1,3]
+):studyno
+
+-->  
+{
+
+AnnotationSet all = (AnnotationSet)bindings.get("studyno");
+FeatureMap newFeatures = Factory.newFeatureMap();
+
+AnnotationSet headset = all.get("Sentence1");
+ArrayList packList = new ArrayList (headset);
+Collections.sort (packList, new OffsetComparator());
+for(int i=0;i<packList.size();i++)
+{
+
+	switch(i)
+	{
+	 case 0:Annotation packAnn=(Annotation)packList.get(i);
+			newFeatures.put("studyno",(String)packAnn.getFeatures().get("Name"));
+	 case 1:Annotation packAnn1=(Annotation)packList.get(i);
+			newFeatures.put("Investigator",(String)packAnn1.getFeatures().get("Name"));
+	 case 2:Annotation packAnn2=(Annotation)packList.get(i);
+			newFeatures.put("siteno",(String)packAnn2.getFeatures().get("Name"));
+
+	}
+}
+outputAS.add(all.firstNode(), all.lastNode(),"MetaData2", newFeatures);
+}
+Phase: FinalSubjectPoints
+Input: SubjectPoints SectionHeadings
+Options: control = appelt
+
+Rule: fsubpoints
+( 
+({SectionHeadings.Text == "6. INFORMED CONSENT"}):mainheading
+({SubjectPoints})+
+):text
+-->  
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("text");
+AnnotationSet UnitSet = (AnnotationSet)units.get("SubjectPoints");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("MainHeading","INFORMED CONSENT");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalSubjectPoints",features);
+}
+}
+
+
+Phase: FinalSubjectPoints2
+Input: SubjectPoints SectionHeadings
+Options: control = appelt
+
+Rule: fsubpoints2
+( 
+({SectionHeadings.Text == "7. PROTOCOL COMPLIANCE"}):mainheading
+({SubjectPoints})+
+):text
+-->  
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("text");
+AnnotationSet UnitSet = (AnnotationSet)units.get("SubjectPoints");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("MainHeading","PROTOCOL COMPLIANCE");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalSubjectPoints",features);
+}
+}
+
+Phase: FinalSubjectPoints3
+Input: SubjectPoints SectionHeadings
+Options: control = appelt
+
+Rule: fsubpoints2
+( 
+({SectionHeadings.Text == "8. CRF REVIEW AND SOURCE DOCUMENT VERIFICATION"}):mainheading
+({SubjectPoints})+
+):text
+-->  
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("text");
+AnnotationSet UnitSet = (AnnotationSet)units.get("SubjectPoints");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("MainHeading","CRF REVIEW AND SOURCE DOCUMENT VERIFICATION");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalSubjectPoints",features);
+}
+}
+Phase: Sections
+Input: Token EndOfLine
+Options: control = all
+
+Rule:SubSec
+(
+({EndOfLine})
+(
+({Token.kind == number,Token.string != 0}{Token.string == "."}{Token.kind == number}):no
+//({Token,Token.length != 1})+
+({EndOfLine})?
+({Token})+
+({EndOfLine})
+):Subsect
+)
+-->
+:Subsect.SubSectionHeading = {Rule = "SubSec", SectionId = :no@cleanString, Text = :Subsect@cleanString}
+
+
+Phase: SubsecHead
+Input: SubSectionHeading
+Options: control = all
+
+Rule: removesubsection
+(
+{SubSectionHeading}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet SubSectionHeading = totalset.get("SubSectionHeading");
+inputAS.removeAll(totalset);
+if (SubSectionHeading != null && !SubSectionHeading.isEmpty()){
+ArrayList flist = new ArrayList(SubSectionHeading);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"SubSectionHeading",features);
+}
+}
+}
+}
+
+
+
+Phase: MainSectionContent
+Input: FinalHeadings
+Options: control = all
+
+Rule: removetoken
+(
+{FinalHeadings}
+):fh
+-->
+{
+
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+int begOffset = tdset.firstNode().getOffset().intValue();
+int endOffset = tdset.lastNode().getOffset().intValue();
+String mydocContent = doc.getContent().toString();
+String heading = mydocContent.substring(begOffset, endOffset);
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet FinalHeadings = totalset.get("FinalHeadings");
+inputAS.removeAll(totalset);
+if (FinalHeadings != null && !FinalHeadings.isEmpty()){
+ArrayList flist = new ArrayList(FinalHeadings);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+features.put("Heading",heading);
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"FinalHeadings",features);
+}
+}
+}
+}
+
+
+Phase: MainSectionContent
+Input: Token FinalHeadings SubSectionHeading MainSectionHighlights FinalHeading
+Options: control = appelt
+
+Rule: seccon
+(
+(({FinalHeadings})):fh
+(({Token})*):content
+(({SubSectionHeading})|({FinalHeading}))?
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+String actualheading = "";
+gate.FeatureMap features = Factory.newFeatureMap();
+AnnotationSet headset = all.get("FinalHeadings");
+Annotation headann = (gate.Annotation)headset.iterator().next();
+String heading = (String)headann.getFeatures().get("Heading");
+actualheading = (String)headann.getFeatures().get("ActualHeading");
+actualheading = actualheading.trim();
+String sId = (String)headann.getFeatures().get("SectionId");
+
+AnnotationSet matchedAnns = bindings.get("content");
+String matchedString = "";
+if(matchedAnns != null){
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+matchedString = mydocContent1.substring(begOffset, endOffset);
+}
+else{
+matchedString = "";
+}
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("MainSectionHighlights");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+ArrayList highlist = new ArrayList(mainsecset);
+Collections.sort(highlist, new OffsetComparator());
+for(Iterator iterator = highlist.iterator();iterator.hasNext();){
+Annotation occuranceAnn = (Annotation)iterator.next();
+gate.FeatureMap oldfeatures = occuranceAnn.getFeatures();
+String high = (String)oldfeatures.get("Content");
+high = high.replace("-","");
+String highlitheading = (String)oldfeatures.get("MSHeading");
+highlitheading = highlitheading.replace("-","");
+highlitheading = highlitheading.trim();
+if(highlitheading.equalsIgnoreCase(actualheading)){
+features.put("Highlights", high);
+}
+}
+
+features.put("Text", matchedString);
+features.put("Heading", heading);
+features.put("SectionId", sId);
+features.put("ActualHeading", actualheading);
+outputAS.add(all.firstNode(),all.lastNode(),"MSContent", features);
+}
+
+
+Phase: FinalMainSectionContent
+Input: MSContent BreakLine
+Options: control = appelt
+
+Rule: finalmcontent
+(
+(({BreakLine.Text == "* Sections or subsections omitted from the full prescribing information are not listed"})
+|({BreakLine.Text == "*Sections or subsections omitted from the full prescribing information are not listed"})
+|({BreakLine.Text == "*Sections or subsections omitted from the full prescribing information are not listed."})
+|({BreakLine.Text == "Reference ID:"}))
+({MSContent})+
+):text
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("text");
+AnnotationSet UnitSet = (AnnotationSet)units.get("MSContent");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FMSC",features);
+}
+}
+
+
+Phase: FinalMainSectionContent2
+Input: FinalHeading Sentence
+Options: control = appelt
+
+Rule: MedicationGuide
+(
+({FinalHeading}):MG
+(({Sentence})+):content
+):text
+-->
+:text.FMSC = {Rule = MedicationGuide, ActualHeading = :MG@cleanString, Heading = :MG@cleanString, Text = :content@cleanString, SectionId = :MG@cleanString}
+Phase: SubSectionContent
+Input: Sentence SubSectionHeading FinalHeadings
+Options: control = appelt
+
+Rule: seccon
+(
+({SubSectionHeading}):fh
+(({Sentence})+):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+AnnotationSet headset = all.get("SubSectionHeading");
+Annotation headann = (gate.Annotation)headset.iterator().next();
+String heading = (String)headann.getFeatures().get("Text");
+String sId = (String)headann.getFeatures().get("SectionId");
+
+AnnotationSet matchedAnns = bindings.get("content");
+String matchedString = "";
+if(matchedAnns != null){
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+matchedString = mydocContent1.substring(begOffset, endOffset);
+}
+else{
+matchedString = "";
+}
+
+features.put("SText", matchedString);
+features.put("SHeading", heading);
+features.put("SSectionId", sId);
+outputAS.add(all.firstNode(),all.lastNode(),"SubsecContent", features);
+}
+
+
+
+Phase: FinalSubSectionContent
+Input: SubsecContent BreakLine
+Options: control = appelt
+
+Rule: finalscontent
+(
+(({BreakLine.Text == "* Sections or subsections omitted from the full prescribing information are not listed"})|({BreakLine.Text == "*Sections or subsections omitted from the full prescribing information are not listed."}))
+({SubsecContent})+
+):text
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("text");
+AnnotationSet UnitSet = (AnnotationSet)units.get("SubsecContent");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalSubsecContent",features);
+}
+}
+Phase: FinalSectionValues
+Input: SubSectionHeading FinalHeadings Sentence
+Options: control = appelt
+
+Rule: AllSections
+(
+({FinalHeadings})
+({Sentence})*
+((
+({SubSectionHeading})
+(({Sentence})*):content
+)*):sub
+):sample
+-->
+//:sample.FinalMNSValues = {Rule = "AllSections"}
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+AnnotationSet headset = all.get("SubSectionHeading");
+Annotation headann = (gate.Annotation)headset.iterator().next();
+features = Factory.newFeatureMap();
+String heading = (String)headann.getFeatures().get("Text");
+String sId = (String)headann.getFeatures().get("SectionId");
+
+AnnotationSet matchedAnns = bindings.get("content");
+String matchedString = "";
+if(matchedAnns != null){
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+matchedString = mydocContent1.substring(begOffset, endOffset);
+}
+else{
+matchedString = "";
+}
+
+features.put("SText", matchedString);
+features.put("SHeading", heading);
+features.put("SSectionId", sId);
+outputAS.add(all.firstNode(),all.lastNode(),"FSC", features);
+}
+Phase:TableDetectionPhase
+Input:FinalSubsecContent
+Options: control=appelt
+
+Rule: TableDetectionRule
+(
+{FinalSubsecContent}
+):TargetTable
+-->
+{  
+String mydocContent1 = doc.getContent().toString();
+AnnotationSet contentSet = (gate.AnnotationSet)bindings.get("TargetTable");
+AnnotationSet tableAnnotationSet = inputAS.get("table").getContained(contentSet.firstNode().getOffset(), contentSet.lastNode().getOffset());
+gate.FeatureMap features = Factory.newFeatureMap();
+
+if (tableAnnotationSet != null && !tableAnnotationSet.isEmpty())
+{
+
+AnnotationSet allunits  = (AnnotationSet)bindings.get("TargetTable");
+AnnotationSet allSet = (AnnotationSet)allunits.get("FinalSubsecContent");
+ArrayList alllist = new ArrayList(allSet);
+Collections.sort(alllist,new OffsetComparator());
+for(Iterator iterator = alllist.iterator();iterator.hasNext();)
+{
+Annotation allAnn = (Annotation)iterator.next();
+gate.FeatureMap newfeatures = allAnn.getFeatures();
+features.putAll(allAnn.getFeatures()); 
+}
+
+ ArrayList tableList=new ArrayList(tableAnnotationSet);
+ Collections.sort(tableList, new OffsetComparator());
+ String temp="";
+ for(int k=0;k<tableList.size();k++)
+{
+StringJoiner sjtable=new StringJoiner("","<table border='1'>","</table>");
+ String text="" ,text1="",text2="";
+Annotation tableAnnotation=null;
+Annotation tableAnnotation1=null;
+if(k<tableList.size()-1)
+{
+ tableAnnotation=(Annotation)tableList.get(k);
+ tableAnnotation1=(Annotation)tableList.get(k+1);
+ text1=mydocContent1.substring(tableAnnotation.getEndNode().getOffset().intValue(),tableAnnotation1.getStartNode().getOffset().intValue());
+ 
+}
+else
+{
+ tableAnnotation=(Annotation)tableList.get(k);
+ text2=mydocContent1.substring(tableAnnotation.getEndNode().getOffset().intValue(),contentSet.lastNode().getOffset().intValue());
+}
+ if(k==0)
+ {
+text=mydocContent1.substring(contentSet.firstNode().getOffset().intValue(),tableAnnotation.getStartNode().getOffset().intValue());
+ }
+AnnotationSet trAnnotationSet = inputAS.get("tr").getContained(Long.valueOf(tableAnnotation.getStartNode().getOffset().intValue()),Long.valueOf(tableAnnotation.getEndNode().getOffset().intValue()));
+ArrayList tableList1=new ArrayList(trAnnotationSet);
+Collections.sort(tableList1, new OffsetComparator());
+
+for(Iterator triterator = tableList1.iterator();triterator.hasNext();)
+{
+StringJoiner sjrow=new StringJoiner("","<tr>","</tr>");
+Annotation trAnnotation1=(Annotation)triterator.next();
+AnnotationSet tdAnnotationSet = inputAS.get("td").getContained(Long.valueOf(trAnnotation1.getStartNode().getOffset().intValue()),Long.valueOf(trAnnotation1.getEndNode().getOffset().intValue()));
+ArrayList tdList1=new ArrayList(tdAnnotationSet);
+Collections.sort(tdList1, new OffsetComparator());
+for(Iterator tditerator = tdList1.iterator();tditerator.hasNext();)
+{
+Annotation tdAnnotation1=(Annotation)tditerator.next();
+String tdset = mydocContent1.substring(tdAnnotation1.getStartNode().getOffset().intValue(), tdAnnotation1.getEndNode().getOffset().intValue());
+sjrow.add("<td>"+tdset+"</td>");
+}
+sjtable.add(sjrow.toString());
+}
+temp=temp+text+" "+sjtable.toString()+" "+text1+" "+text2;
+}
+features.put("SText1",temp);
+outputAS.add(tableAnnotationSet.firstNode(),tableAnnotationSet.lastNode(),"FinalSubsecContent2",features);
+}
+else{
+AnnotationSet units  = (AnnotationSet)bindings.get("TargetTable");
+AnnotationSet UnitSet = (AnnotationSet)units.get("FinalSubsecContent");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features2 = unitAnn.getFeatures();
+String text = (String)features2.get("SText");
+features2.put("SText1",text);
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalSubsecContent2",features2);
+}
+}
+}

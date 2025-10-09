@@ -1,0 +1,98 @@
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+Phase: CoomaEnd
+Input: Token
+Options: control = appelt
+
+Rule: Comma
+(
+({Token.string == ","}):line
+)
+-->
+:line.Comma = {Rule = "Comma"}
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Lt
+(
+{Lookup.majorType == "lt"}
+):Heading
+-->
+:Heading.Lt = {Text = :Heading@cleanString, Rule = "Lt"}
+
+Rule: prefix
+(
+{Lookup.majorType == "prefix"}
+):Heading
+-->
+:Heading.Prefix = {Text = :Heading@cleanString, Rule = "prefix"}
+
+Rule: Number
+(
+{Lookup.majorType == "number"}
+):Heading
+-->
+:Heading.Number = {Rule = "Number", Text = :Heading@cleanString}
+
+Rule: FixedLt
+(
+{Lookup.majorType == "flt"}
+):Heading
+-->
+:Heading.LoT = {Rule = "FixedLt", Lt = :Heading@cleanString, Text = :Heading@cleanString}
+
+Rule: Criteria10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Criteria10", Text = :criteria@cleanString}
+
+Phase: SectionEnd
+Input: oversight_info
+Options: control = appelt
+
+Rule: OsInfo
+(  
+{oversight_info}
+):end
+-->  
+:end.OversightInfo = {rule = "OsInfo"}
+
+Phase: GenderAnnot
+Input: gender
+Options: control = brill
+Rule: GenderRule
+({gender}):fp
+-->
+:fp.Gender = {Rule = "GenderRule",Text = :fp@cleanString}

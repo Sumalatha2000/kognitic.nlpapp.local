@@ -1,0 +1,768 @@
+Phase: OriginalMarkupTrailcriteria
+Input: Secondaryoutcome AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({AllLAGKeyWord within Secondaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String OldFiniding = (String)headann.getFeatures().get("Finding");
+
+
+features.put("Text",FinalText);
+features.put("Section","Secondaryoutcome");
+features.put("Rule","SectionHigh7");
+if(OldFiniding.equalsIgnoreCase("Positive")){
+features.put("Finding","Complimentary");
+}else{
+String Finding = (String)headann.getFeatures().get("Finding");
+features.put("Finding",Finding);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalBiomarkerKeyWords", features);
+}
+
+
+Phase: OriginalMarkupTrailcriteria2
+Input: Primaryoutcome AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh2
+(
+({AllLAGKeyWord within Primaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String OldFiniding = (String)headann.getFeatures().get("Finding");
+
+features.put("Text",FinalText);
+features.put("Section","Primaryoutcome");
+features.put("Rule","SectionHigh7");
+if(OldFiniding.equalsIgnoreCase("Positive")){
+features.put("Finding","Complimentary");
+}else{
+String Finding = (String)headann.getFeatures().get("Finding");
+features.put("Finding",Finding);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalBiomarkerKeyWords", features);
+}
+
+/*
+Phase: OriginalMarkupTrailcriteria3
+Input: Criteria AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh3
+(
+({AllLAGKeyWord within Criteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","Criteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+*/
+
+Phase: OriginalMarkupTrailcriteria4
+Input: DetailedDes AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({AllLAGKeyWord within DetailedDes})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","DetailedDes");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria4
+Input: BriefSummary AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({AllLAGKeyWord within BriefSummary})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","BriefSummary");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({AllLAGKeyWord within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({AllLAGKeyWord within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria7
+Input: OtherOutcome AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh7
+(
+({AllLAGKeyWord within OtherOutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String OldFiniding = (String)headann.getFeatures().get("Finding");
+
+features.put("Text",FinalText);
+features.put("Section","OtherOutcome");
+features.put("Rule","SectionHigh7");
+if(OldFiniding.equalsIgnoreCase("Positive")){
+features.put("Finding","Complimentary");
+}else{
+String Finding = (String)headann.getFeatures().get("Finding");
+features.put("Finding",Finding);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalBiomarkerKeyWords", features);
+}
+
+Phase: OriginalMarkupTrailcriteria8
+Input: ArmGroup AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh8
+(
+({AllLAGKeyWord within ArmGroup})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","ArmGroup");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Intervention AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh9
+(
+({AllLAGKeyWord within Intervention})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","Intervention");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Condition AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh10
+(
+({AllLAGKeyWord within Condition})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","Condition");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria34
+Input: InclusionCriteria AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({AllLAGKeyWord within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","InclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+}
+}
+
+/*
+Phase: OriginalMarkup246569
+Input: FinalBiomarkerKeyWords inclcom SentEnd BreakPoint Brekwords
+Options: control = appelt
+
+Rule:DataPoints2
+(
+    (
+        ({inclcom})     
+         ({FinalBiomarkerKeyWords})[1,5]
+		({inclcom})
+    )
+):disease
+-->
+{ 
+ AnnotationSet disease = (AnnotationSet)bindings.get("disease"); 
+ AnnotationSet DiseaseSet =(AnnotationSet)disease.get("FinalBiomarkerKeyWords");
+
+ 
+ Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+ String FinalText = (String)headann.getFeatures().get("Text");
+ String Finding = (String)headann.getFeatures().get("Finding");
+ String Phase = (String)headann.getFeatures().get("Phase");
+ String OverAllStatus = (String)headann.getFeatures().get("OverAllStatus");
+ String FirstPosted = (String)headann.getFeatures().get("FirstPosted");
+ String LastPosted = (String)headann.getFeatures().get("LastPosted");
+ 
+ 
+ int count=1;
+ ArrayList disList = new ArrayList(DiseaseSet);
+ Collections.sort(disList, new OffsetComparator());
+
+ for(Iterator iterator = disList.iterator();iterator.hasNext();count++)
+ {
+ Annotation diseaseAnn =(Annotation)iterator.next();	 
+ gate.FeatureMap features = diseaseAnn.getFeatures();
+ AnnotationSet CompSet =(AnnotationSet)disease.get("inclcom");
+   if(CompSet!=null&&!CompSet.isEmpty()){
+   if(Finding.equalsIgnoreCase("Positive"))
+  features.put("Finding","Complementary");
+  }else{
+    if(features.get("Finding")==null)
+	features.put("Finding",Finding);
+    
+  }
+ 
+	features.put("Text",FinalText);
+	features.put("Phase", Phase);
+	features.put("OverAllStatus", OverAllStatus);
+	features.put("FirstPosted", FirstPosted);
+	features.put("LastPosted", LastPosted);
+  outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+ }
+}
+*/
+
+Phase: OriginalMarkupTrailcriteria34
+Input: ExlusionCriteria AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({AllLAGKeyWord within ExlusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","ExlusionCriteria");
+features.put("Rule","SectionHigh12");
+features.put("Finding","Negative");
+
+outputAS.add(units.firstNode(),units.lastNode(),"ExclusiveLAGKeywords", features);
+}
+
+Phase: OriginalMarkup3
+Input: ExclusiveLAGKeywords SentEnd BreakPoint Brekwords Doubt
+Options: control = appelt
+
+Rule:Doubts
+(
+    (
+        ({Doubt})?       
+         ({ExclusiveLAGKeywords})[1,5]
+		({Doubt})?
+    )
+):disease
+-->
+{ 
+ AnnotationSet disease = (AnnotationSet)bindings.get("disease"); 
+ AnnotationSet DiseaseSet =(AnnotationSet)disease.get("ExclusiveLAGKeywords");
+ 
+ Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+ String Finding = (String)headann.getFeatures().get("Finding");
+ 
+ int count=1;
+ ArrayList disList = new ArrayList(DiseaseSet);
+ Collections.sort(disList, new OffsetComparator());
+
+ for(Iterator iterator = disList.iterator();iterator.hasNext();count++)
+ {
+ Annotation diseaseAnn =(Annotation)iterator.next();	 
+ gate.FeatureMap features = diseaseAnn.getFeatures();
+ AnnotationSet DoubtSet =(AnnotationSet)disease.get("Doubt");
+ features.put("Rule","Doubts");
+  if(DoubtSet!=null&&!DoubtSet.isEmpty()){
+  features.put("Finding","None");
+  }else{
+  features.put("Finding",Finding);
+  }
+  outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"FinalBiomarkerKeyWords",features);
+ }
+}
+
+Phase: OriginalMarkupTrailcriteria35
+Input: PrimaryObjective AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh13
+(
+({AllLAGKeyWord within PrimaryObjective})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","PrimaryObjective");
+features.put("Rule","SectionHigh13");
+features.put("Finding","Complimentary");
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalBiomarkerKeyWords", features);
+}
+
+Phase: OriginalMarkupTrailcriteria36
+Input: SecondaryObjective AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh13
+(
+({AllLAGKeyWord within SecondaryObjective})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","SecondaryObjective");
+features.put("Rule","SectionHigh13");
+features.put("Finding","Complimentary");
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalBiomarkerKeyWords", features);
+}

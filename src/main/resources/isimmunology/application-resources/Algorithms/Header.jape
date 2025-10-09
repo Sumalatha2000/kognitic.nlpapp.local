@@ -1,0 +1,83 @@
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: immu
+(
+{Lookup.majorType == "immunologic"}
+):Heading
+-->
+:Heading.Indications = {Rule = "Ca", Text = :Heading@cleanString, Finding = "Positive"}
+
+Rule: Criteria10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Criteria10", Text = :criteria@cleanString}
+
+Rule: seg
+(
+{Lookup.majorType == "seg"}
+):comb
+-->
+:comb.Seg = {Rule = "seg", Text = :comb@cleanString}
+
+Rule: comband
+(
+{Lookup.majorType == "comb"}
+):comb
+-->
+:comb.Comb = {Rule = "comb", Text = :comb@cleanString}
+
+Rule: preNeg
+(
+{Lookup.majorType == "preNeg"}
+):phm
+-->
+:phm.preNeg = {Rule = "preNeg", Text = :phm@cleanString}
+
+Rule: postNeg
+(
+{Lookup.majorType == "postNeg"}
+):rote
+-->
+:rote.postNegation = {Rule = "postNeg", Text = :rote@cleanString}
+
+Rule: breakword
+(
+{Lookup.majorType == "brekwords"}
+):brekwords
+-->
+:brekwords.Brekwords = {Rule = "breakword", Text = :brekwords@cleanString}

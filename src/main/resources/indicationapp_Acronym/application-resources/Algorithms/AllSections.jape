@@ -1,0 +1,339 @@
+Phase: OriginalMarkupTrailcriteria4
+Input: DetailedDes AllIndications
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({AllIndications within DetailedDes})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","DetailedDes");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalIndications",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria4
+Input: BriefSummary AllIndications
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({AllIndications within BriefSummary})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","BriefSummary");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalIndications",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle AllIndications
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({AllIndications within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalIndications",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle AllIndications
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({AllIndications within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalIndications",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Condition AllIndications
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({AllIndications within Condition})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Disease = (String)headann.getFeatures().get("Disease");
+String Site = (String)headann.getFeatures().get("Site");
+String Site2 = (String)headann.getFeatures().get("Site2");
+String Tconcept = (String)headann.getFeatures().get("Tconcept");
+String Population = (String)headann.getFeatures().get("Population");
+
+features.put("Text",FinalText);
+features.put("Disease",Disease);
+features.put("Site",Site);
+features.put("Site2",Site2);
+features.put("Section","Condition");
+features.put("Rule","SectionHigh12");
+features.put("Finding","Positive");
+features.put("Tconcept",Tconcept);
+features.put("Population",Population);
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalIndications", features);
+}
+
+
+Phase: OriginalMarkupTrailcriteria34
+Input: InclusionCriteria AllIndications
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({AllIndications within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","InclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalIndications",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria35
+Input: InclusionCriteria AcronymIndication
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({AcronymIndication within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AcronymIndication");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+features.put("Section","InclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalIndications",features);
+}
+}
+
+/*
+Phase: OriginalMarkupTrailcriteria34
+Input: ExlusionCriteria AllIndications
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({AllIndications within ExlusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","ExlusionCriteria");
+features.put("Rule","SectionHigh12");
+features.put("Finding","Negative");
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalIndications", features);
+}
+*/
+
+Phase: OriginalMarkupTrailcriteria91123
+Input: Keyword AllIndications
+Options: control = appelt
+
+Rule: SectionHigh151
+(
+({AllIndications within Keyword})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Disease = (String)headann.getFeatures().get("Disease");
+String Site = (String)headann.getFeatures().get("Site");
+String Site2 = (String)headann.getFeatures().get("Site2");
+String Tconcept = (String)headann.getFeatures().get("Tconcept");
+String Population = (String)headann.getFeatures().get("Population");
+
+features.put("Text",FinalText);
+features.put("Disease",Disease);
+features.put("Site",Site);
+features.put("Site2",Site2);
+features.put("Section","Keyword");
+features.put("Rule","SectionHigh12");
+features.put("Finding","Positive");
+features.put("Tconcept",Tconcept);
+features.put("Population",Population);
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalIndications", features);
+}
+
+Phase: OriginalMarkupTrailcriteria93336
+Input: ArmGroup AllIndications
+Options: control = appelt
+
+Rule: SectionHigh151
+(
+({AllIndications within ArmGroup})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Disease = (String)headann.getFeatures().get("Disease");
+String Site = (String)headann.getFeatures().get("Site");
+String Site2 = (String)headann.getFeatures().get("Site2");
+String Tconcept = (String)headann.getFeatures().get("Tconcept");
+String Population = (String)headann.getFeatures().get("Population");
+
+features.put("Text",FinalText);
+features.put("Disease",Disease);
+features.put("Site",Site);
+features.put("Site2",Site2);
+features.put("Section","Keyword");
+features.put("Rule","SectionHigh12");
+features.put("Finding","Positive");
+features.put("Tconcept",Tconcept);
+features.put("Population",Population);
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalIndications", features);
+}
+
+Phase: OriginalMarkupTrailcriteria99996
+Input: Intervention AllIndications
+Options: control = appelt
+
+Rule: SectionHigh151
+(
+({AllIndications within Intervention})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllIndications");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Disease = (String)headann.getFeatures().get("Disease");
+String Site = (String)headann.getFeatures().get("Site");
+String Site2 = (String)headann.getFeatures().get("Site2");
+String Tconcept = (String)headann.getFeatures().get("Tconcept");
+String Population = (String)headann.getFeatures().get("Population");
+
+features.put("Text",FinalText);
+features.put("Disease",Disease);
+features.put("Site",Site);
+features.put("Site2",Site2);
+features.put("Section","Intervention");
+features.put("Rule","SectionHigh12");
+features.put("Finding","Positive");
+features.put("Tconcept",Tconcept);
+features.put("Population",Population);
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalIndications", features);
+}

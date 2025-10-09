@@ -1,0 +1,213 @@
+Phase: SubsecHead
+Input: FinalDrugs
+Options: control = all
+
+Rule: removeFinalDrugs
+(
+{FinalDrugs}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet FinalDrugs = totalset.get("FinalDrugs");
+inputAS.removeAll(totalset);
+if (FinalDrugs != null && !FinalDrugs.isEmpty()){
+ArrayList flist = new ArrayList(FinalDrugs);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"FinalDrugs",features);
+}
+}
+}
+}
+
+Phase: RemoveRoute
+Input: Route
+Options: control = all
+
+Rule: RemoveRoute
+(
+{Route}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet Route = totalset.get("Route");
+inputAS.removeAll(totalset);
+if (Route != null && !Route.isEmpty()){
+ArrayList flist = new ArrayList(Route);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"Route",features);
+}
+}
+}
+}
+
+
+Phase: RoA
+Input: FinalDrugs Route Token SentEnd
+Options: control = appelt
+
+Rule:RoAComb
+(
+({FinalDrugs}):drug
+({Token})[0,12]
+({Route}):route
+):sample
+-->
+:sample.FinalRoA = {Rule = "RoAComb", Text = :sample@cleanString, Route = :sample.Route.route, drugs = :sample.FinalDrugs.drugs, Section = :sample.FinalDrugs.Section}
+// {
+// AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+// AnnotationSet UnitSet = (AnnotationSet)units.get("FinalDrugs");
+
+// AnnotationSet Rset = units.get("Route");
+
+
+// Annotation Rann = (gate.Annotation)Rset.iterator().next();
+// String Route = (String)Rann.getFeatures().get("route");
+
+// ArrayList ulist = new ArrayList(UnitSet);
+// Collections.sort(ulist,new OffsetComparator());
+// for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+// {
+// Annotation unitAnn = (Annotation)iterator.next();
+// gate.FeatureMap features = unitAnn.getFeatures();
+// features.put("Route",Route);
+// features.put("Rule","RoAComb");
+// outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+// }
+// }
+
+
+
+/*
+1.Trial of PAD (Bortezomib, Doxorubicin and Dexamethasone) induction therapy in transplant
+2.Dexamethasone) induction therapy in transplant
+// */
+// Phase: RoA2
+// Input: FinalDrugs Route Token
+// Options: control = appelt
+
+Rule:RoAComb2
+(
+(
+({FinalDrugs}):drug
+({Token, Token.string != "."})[0,2]
+)[1,8]
+({Token, Token.string != "."})[0,5]
+({Route}):route
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("FinalDrugs");
+
+AnnotationSet Rset = units.get("Route");
+
+
+Annotation Rann = (gate.Annotation)Rset.iterator().next();
+String Route = (String)Rann.getFeatures().get("route");
+
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Route",Route);
+features.put("Rule","RoAComb2");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+// 200mg daily of thalidomide added to a maintenance regimen of
+//  oral 50mg prednisolone every second day and monthly intravenous infusion of zoledronic acid 
+//ACTRN12607000382471
+
+// Phase: RoA212
+// Input: FinalDrugs Route Token
+// Options: control = appelt
+
+Rule:RoAComb3
+(
+({Route}):route
+({Token, Token.string != "."})[0,5]
+(
+({FinalDrugs}):drug
+({Token, Token.string != "."})[0,2]
+)[1,8]
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("FinalDrugs");
+
+AnnotationSet Rset = units.get("Route");
+
+
+Annotation Rann = (gate.Annotation)Rset.iterator().next();
+String Route = (String)Rann.getFeatures().get("route");
+
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Route",Route);
+features.put("Rule","RoAComb3");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+
+
+
+// ACTRN12612000338864
+// 4mg oral pomalidomide daily on a cyclic 21-day out of 28-day schedule with 40mg oral dexamethasone
+
+// Phase: RoA223
+// Input: FinalDrugs Route Token
+// Options: control = appelt
+
+Rule:RoAComb4
+(
+({Route}):route
+({FinalDrugs}):drug
+):sample
+-->
+:sample.FinalRoA = {Rule = "RoAComb4", Text = :sample@cleanString, Route = :sample.Route.route, drugs = :sample.FinalDrugs.drugs, Section = :sample.FinalDrugs.Section}
+// {
+// AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+// AnnotationSet UnitSet = (AnnotationSet)units.get("FinalDrugs");
+
+// AnnotationSet Rset = units.get("Route");
+
+// Annotation Rann = (gate.Annotation)Rset.iterator().next();
+// String Route = (String)Rann.getFeatures().get("route");
+
+// ArrayList ulist = new ArrayList(UnitSet);
+// Collections.sort(ulist,new OffsetComparator());
+// for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+// {
+// Annotation unitAnn = (Annotation)iterator.next();
+// gate.FeatureMap features = unitAnn.getFeatures();
+// features.put("Route",Route);
+// features.put("Rule","RoAComb4");
+// outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+// }
+// }
+
+//  bortezomib subcutaneously (SC) --here sc captured from rule RoAComb which wrong
+ 

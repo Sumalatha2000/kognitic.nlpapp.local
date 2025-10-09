@@ -1,0 +1,79 @@
+/*Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}*/
+
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: racial
+(
+{Lookup.majorType == "racial"}
+):Heading
+-->
+:Heading.racial = {Rule = "racial", Text = :Heading@cleanString}
+
+Rule: country
+(
+{Lookup.majorType == "country"}
+):Heading
+-->
+:Heading.CountryRule = {Rule = "country", Text = :Heading@cleanString}
+
+Rule: country
+(
+{Lookup.majorType == "country"}
+):Heading
+-->
+:Heading.CountryRule = {Rule = "country", Text = :Heading@cleanString}
+
+Rule: negation
+(
+{Lookup.majorType == "negation"}
+):Heading
+-->
+:Heading.negation = {Rule = "negation", Text = :Heading@cleanString}
+
+Phase: PhaseAnnot
+Input: phase
+Options: control = brill
+Rule: PhaseRule
+({phase}):br
+-->
+:br.Phase = {Rule = "PhaseRule",Text = :br@cleanString}
+
+
+Phase: StatusAnnot
+Input: overall_status
+Options: control = brill
+Rule: StatusRule
+({overall_status}):status
+-->
+:status.OverallStatus = {Rule = "StatusAnnot",Text = :status@cleanString}

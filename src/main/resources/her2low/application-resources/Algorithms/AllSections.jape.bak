@@ -1,0 +1,287 @@
+Phase: OriginalMarkupTrailcriteria4
+Input: DetailedDes Her2Low
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({Her2Low within DetailedDes})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Her2Low");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+features.put("Section","DetailedDes");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalHer2Low",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria4
+Input: BriefSummary Her2Low
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({Her2Low within BriefSummary})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Her2Low");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+
+features.put("Section","BriefSummary");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalHer2Low",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle Her2Low
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({Her2Low within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Her2Low");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalHer2Low",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle Her2Low
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({Her2Low within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Her2Low");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalHer2Low",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria8
+Input: ArmGroup Her2Low
+Options: control = appelt
+
+Rule: SectionHigh8
+(
+({Her2Low within ArmGroup})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Her2Low");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+
+features.put("Section","ArmGroup");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalHer2Low",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Intervention Her2Low
+Options: control = appelt
+
+Rule: SectionHigh9
+(
+({Her2Low within Intervention})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Her2Low");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+
+features.put("Section","Intervention");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalHer2Low",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria34
+Input: InclusionCriteria Her2Low
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({Her2Low within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Her2Low");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+
+features.put("Section","InclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalHer2Low",features);
+}
+}

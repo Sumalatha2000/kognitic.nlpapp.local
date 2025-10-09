@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:gate="http://gate.ac.uk/ns/spring"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://gate.ac.uk/ns/spring
+           http://gate.ac.uk/ns/spring.xsd">
+
+
+	<!-- init gate -->
+	<gate:init />
+
+	<!-- set up the definition of the GATE application. This will load one copy 
+		of the application and then duplicate it. -->
+	<gate:duplicate id="myApp">
+		<gate:saved-application
+			location="classpath:./${nlp.pipeline.type}/application.xgapp" />
+	</gate:duplicate>
+	<bean id="processor"
+		class="gate.util.LanguageAnalyserDocumentProcessor">
+		<property name="analyser" ref="myApp" />
+		<gate:pooled-proxy max-size="3" initial-size="3" />
+	</bean>
+</beans>

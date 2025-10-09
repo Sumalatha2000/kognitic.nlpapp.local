@@ -1,0 +1,62 @@
+Phase: SubsecHead
+Input: FinalDrugs
+Options: control = all
+
+Rule: removeFinalDrugs
+(
+{FinalDrugs}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet FinalDrugs = totalset.get("FinalDrugs");
+inputAS.removeAll(totalset);
+if (FinalDrugs != null && !FinalDrugs.isEmpty()){
+ArrayList flist = new ArrayList(FinalDrugs);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"FinalDrugs",features);
+}
+}
+}
+}
+
+/*
+Phase: RoA
+Input: FinalDrugs Route Token
+Options: control = appelt
+
+Rule:RoAComb
+(
+({FinalDrugs}):drug
+({Token, Token.string != ".", Token.string != ","})[0,8]
+({Route}):route
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("FinalDrugs");
+
+AnnotationSet Rset = units.get("Route");
+
+
+Annotation Rann = (gate.Annotation)Rset.iterator().next();
+String Route = (String)Rann.getFeatures().get("route");
+
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Route",Route);
+
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+*/

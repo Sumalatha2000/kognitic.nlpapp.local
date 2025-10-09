@@ -1,0 +1,42 @@
+Phase: Remove
+Input: tpy
+Options: control = all
+
+Rule: removeFinalDrugs
+(
+{tpy}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet tpy = totalset.get("tpy");
+inputAS.removeAll(totalset);
+if (tpy != null && !tpy.isEmpty()){
+ArrayList flist = new ArrayList(tpy);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"tpy",features);
+}
+}
+}
+}
+
+Phase: SectionEnd
+Input: Token tpy
+Options: control = appelt
+
+Rule: comb
+(
+(
+({Token})[0,20]
+({tpy})
+({Token})[0,20]
+)
+):line
+-->
+:line.therapy = {Rule = "comb", Text = :line@cleanString, tpy = :line.tpy.Text,}

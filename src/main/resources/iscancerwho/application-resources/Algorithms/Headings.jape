@@ -1,0 +1,55 @@
+Phase: OriginalMarkup
+Input: conditions publicTitle scientificTitle brief_summary
+
+Rule: conditions
+(
+({conditions}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+features.put("Text", sentence9);
+outputAS.add(all.firstNode(),all.lastNode(),"Condition", features);
+}
+
+
+Rule: scientificTitle
+(
+({scientificTitle}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+features.put("Text", sentence9);
+outputAS.add(all.firstNode(),all.lastNode(),"OfficialTitle", features);
+}
+
+
+Rule: publicTitle
+(
+({publicTitle}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+features.put("Text", sentence9);
+outputAS.add(all.firstNode(),all.lastNode(),"BriefTitle", features);
+}

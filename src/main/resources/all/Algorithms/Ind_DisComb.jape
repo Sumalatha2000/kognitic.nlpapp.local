@@ -1,0 +1,271 @@
+Phase: SectionEnd
+Input: Site Disease Site2 EndOfLine Brekwords SentEnd Comma BreakPoint SectionEnd Tconcept Token Comb
+Options: control = appelt
+
+Rule: comb
+(
+(
+({Tconcept})?
+({Site}{Disease})
+)|
+(
+({Disease}{Site})
+)|
+(
+({Site2}{Disease})
+)|
+(
+({Site}{Site2}{Disease})
+)|
+(
+({Site2}{Site}{Disease})
+)|
+(
+({Site2}{Tconcept}{Site}{Disease})
+)
+
+):line
+-->
+:line.Indications = {Rule = "comb", Text = :line@cleanString, Finding = "Positive",Disease = :line.Disease.Disease,Site = :line.Site.Text, Site2 = :line.Site2.Text, Tconcept = :line.Tconcept.Text}
+
+
+Rule:comb2	/* ovarian, breast, lung,esophageal, gastric, hepatocellular and urothelial cancers*/
+(
+  (({Site})
+  ({Comma})?
+  ({EndOfLine})?  
+  )[1,10]
+  {Disease}
+ ):Primary
+-->
+//:Primary.Disease4 = {Disease = :Primary.Disease.Disorder1,DiseaseType = :Primary.Disease.Type, Finding = "Positive", Site = :Primary.Site.Site, Site1 = :Primary.Site1.Site1, Site2 = :Primary.Site2.Site2, Rule ="Disease3"}
+{
+String mydocContent=doc.getContent().toString();
+AnnotationSet disease = (AnnotationSet)bindings.get("Primary");
+AnnotationSet siteSet = disease.get("Site");
+
+AnnotationSet disorderSet = disease.get("Disease");
+Annotation disorderAnn =(Annotation)disorderSet.iterator().next();	
+String Disease = (String)disorderAnn.getFeatures().get("Disease");
+
+ArrayList disList = new ArrayList(siteSet);
+Collections.sort(disList, new OffsetComparator());
+for(Iterator iterator = disList.iterator();iterator.hasNext();)
+{
+gate.FeatureMap features = Factory.newFeatureMap(); 
+Annotation diseaseAnn =(Annotation)iterator.next();
+int cstartPos = (int)diseaseAnn.getStartNode().getOffset().longValue();    
+int cendPos = (int)diseaseAnn.getEndNode().getOffset().longValue();
+String content = mydocContent.substring(cstartPos,cendPos);
+String site = (String)diseaseAnn.getFeatures().get("Text");
+
+String Text = site+" "+Disease;
+
+features.put("Rule","comb2");
+features.put("Site",site);
+features.put("Disease",Disease);
+features.put("Disease",Disease);
+features.put("Text",Text);
+features.put("Finding","Positive");
+outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"Indications",features);
+}
+}
+
+Rule:comb3	/* carcinoma in ovarian, breast, lung,esophageal, gastric, hepatocellular*/
+(
+	{Disease, Disease.Disease != "tumor"}
+	({Comma})?
+  (({Site})
+  ({Comma})?
+  ({EndOfLine})?  
+  )[1,10]
+  
+ ):Primary
+-->
+//:Primary.Disease4 = {Disease = :Primary.Disease.Disorder1,DiseaseType = :Primary.Disease.Type, Finding = "Positive", Site = :Primary.Site.Site, Site1 = :Primary.Site1.Site1, Site2 = :Primary.Site2.Site2, Rule ="Disease3"}
+{
+String mydocContent=doc.getContent().toString();
+AnnotationSet disease = (AnnotationSet)bindings.get("Primary");
+AnnotationSet siteSet = disease.get("Site");
+
+AnnotationSet disorderSet = disease.get("Disease");
+Annotation disorderAnn =(Annotation)disorderSet.iterator().next();	
+String Disease = (String)disorderAnn.getFeatures().get("Disease");
+
+ArrayList disList = new ArrayList(siteSet);
+Collections.sort(disList, new OffsetComparator());
+for(Iterator iterator = disList.iterator();iterator.hasNext();)
+{
+gate.FeatureMap features = Factory.newFeatureMap(); 
+Annotation diseaseAnn =(Annotation)iterator.next();
+int cstartPos = (int)diseaseAnn.getStartNode().getOffset().longValue();    
+int cendPos = (int)diseaseAnn.getEndNode().getOffset().longValue();
+String content = mydocContent.substring(cstartPos,cendPos);
+String site = (String)diseaseAnn.getFeatures().get("Text");
+
+String Text = site+" "+Disease;
+
+features.put("Rule","comb3");
+features.put("Site",site);
+features.put("Disease",Disease);
+features.put("Text",Text);
+features.put("Finding","Positive");
+outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"Indications",features);
+}
+}
+
+Rule:comb4	/* fallopian tube and primary peritoneal cancers*/
+(
+  (({Site})
+  ({Comb})?
+  )[2]
+  {Disease}
+ ):Primary
+-->
+//:Primary.Disease4 = {Disease = :Primary.Disease.Disorder1,DiseaseType = :Primary.Disease.Type, Finding = "Positive", Site = :Primary.Site.Site, Site1 = :Primary.Site1.Site1, Site2 = :Primary.Site2.Site2, Rule ="Disease3"}
+{
+String mydocContent=doc.getContent().toString();
+AnnotationSet disease = (AnnotationSet)bindings.get("Primary");
+AnnotationSet siteSet = disease.get("Site");
+
+AnnotationSet disorderSet = disease.get("Disease");
+Annotation disorderAnn =(Annotation)disorderSet.iterator().next();	
+String Disease = (String)disorderAnn.getFeatures().get("Disease");
+
+ArrayList disList = new ArrayList(siteSet);
+Collections.sort(disList, new OffsetComparator());
+for(Iterator iterator = disList.iterator();iterator.hasNext();)
+{
+gate.FeatureMap features = Factory.newFeatureMap(); 
+Annotation diseaseAnn =(Annotation)iterator.next();
+int cstartPos = (int)diseaseAnn.getStartNode().getOffset().longValue();    
+int cendPos = (int)diseaseAnn.getEndNode().getOffset().longValue();
+String content = mydocContent.substring(cstartPos,cendPos);
+String site = (String)diseaseAnn.getFeatures().get("Text");
+
+String Text = site+" "+Disease;
+
+features.put("Rule","comb4");
+features.put("Site",site);
+features.put("Disease",Disease);
+features.put("Disease",Disease);
+features.put("Text",Text);
+features.put("Finding","Positive");
+outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"Indications",features);
+}
+}
+
+Rule:comb5	/*  adenocarcinoma of the thoracic esophagus or (EndOfLine)gastroesophageal junction*/
+(
+	{Disease, Disease.Disease != "tumor"}
+	({Comb})?
+	({Token})?
+  (({Site})
+  ({Token.string ==~ "(?i)or"})?
+  ({EndOfLine})?  
+  )[1,10]
+  
+ ):Primary
+-->
+//:Primary.Disease4 = {Disease = :Primary.Disease.Disorder1,DiseaseType = :Primary.Disease.Type, Finding = "Positive", Site = :Primary.Site.Site, Site1 = :Primary.Site1.Site1, Site2 = :Primary.Site2.Site2, Rule ="Disease3"}
+{
+String mydocContent=doc.getContent().toString();
+AnnotationSet disease = (AnnotationSet)bindings.get("Primary");
+AnnotationSet siteSet = disease.get("Site");
+
+AnnotationSet disorderSet = disease.get("Disease");
+Annotation disorderAnn =(Annotation)disorderSet.iterator().next();	
+String Disease = (String)disorderAnn.getFeatures().get("Disease");
+
+ArrayList disList = new ArrayList(siteSet);
+Collections.sort(disList, new OffsetComparator());
+for(Iterator iterator = disList.iterator();iterator.hasNext();)
+{
+gate.FeatureMap features = Factory.newFeatureMap(); 
+Annotation diseaseAnn =(Annotation)iterator.next();
+int cstartPos = (int)diseaseAnn.getStartNode().getOffset().longValue();    
+int cendPos = (int)diseaseAnn.getEndNode().getOffset().longValue();
+String content = mydocContent.substring(cstartPos,cendPos);
+String site = (String)diseaseAnn.getFeatures().get("Text");
+
+String Text = site+" "+Disease;
+
+features.put("Rule","comb5");
+features.put("Site",site);
+features.put("Disease",Disease);
+features.put("Text",Text);
+features.put("Finding","Positive");
+outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"Indications",features);
+}
+}
+
+Phase: SectionEnd2
+Input: Disease1 Brekwords SentEnd Comma BreakPoint Brekwords
+Options: control = appelt
+
+Rule: comb
+(
+({Disease1})
+):line
+-->
+:line.Indications = {Rule = "comb123", Text = :line@cleanString, Finding = "Positive",Disease = :line.Disease1.Text}
+
+
+Phase: Combof2
+Input: Site Disease Comb Token Site2
+Options: control = appelt
+
+Rule: Combof2
+(
+({Disease}{Comb}{Site})
+):line
+-->
+:line.Indications = {Rule = "Combof2", Text = :line@cleanString, Finding = "Positive",Disease = :line.Disease.Disease,Site = :line.Site.Text}
+
+Rule: Combof21
+(
+({Site2}{Disease}{Comb}{Site})
+):line
+-->
+:line.Indications = {Rule = "Combof21", Text = :line@cleanString, Finding = "Positive",Disease = :line.Disease.Disease,Site = :line.Site.Text,Site2 = :line.Site2.Text}
+
+Rule:combnew	/* esophageal/esophagogastric junction (EndOfLine)adenocarcinoma)*/
+(
+  (({Site})
+  ({Token.string == "/"})?
+  )[2]
+  {Disease}
+ ):Primary
+-->
+//:Primary.Disease4 = {Disease = :Primary.Disease.Disorder1,DiseaseType = :Primary.Disease.Type, Finding = "Positive", Site = :Primary.Site.Site, Site1 = :Primary.Site1.Site1, Site2 = :Primary.Site2.Site2, Rule ="Disease3"}
+{
+String mydocContent=doc.getContent().toString();
+AnnotationSet disease = (AnnotationSet)bindings.get("Primary");
+AnnotationSet siteSet = disease.get("Site");
+
+AnnotationSet disorderSet = disease.get("Disease");
+Annotation disorderAnn =(Annotation)disorderSet.iterator().next();	
+String Disease = (String)disorderAnn.getFeatures().get("Disease");
+
+ArrayList disList = new ArrayList(siteSet);
+Collections.sort(disList, new OffsetComparator());
+for(Iterator iterator = disList.iterator();iterator.hasNext();)
+{
+gate.FeatureMap features = Factory.newFeatureMap(); 
+Annotation diseaseAnn =(Annotation)iterator.next();
+int cstartPos = (int)diseaseAnn.getStartNode().getOffset().longValue();    
+int cendPos = (int)diseaseAnn.getEndNode().getOffset().longValue();
+String content = mydocContent.substring(cstartPos,cendPos);
+String site = (String)diseaseAnn.getFeatures().get("Text");
+
+String Text = site+" "+Disease;
+
+features.put("Rule","combnew");
+features.put("Site",site);
+features.put("Disease",Disease);
+features.put("Disease",Disease);
+features.put("Text",Text);
+features.put("Finding","Positive");
+outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"Indications",features);
+}
+}

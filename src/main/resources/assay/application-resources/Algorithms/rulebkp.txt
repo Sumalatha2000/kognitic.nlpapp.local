@@ -1,0 +1,259 @@
+Phase: OriginalMarkupTrailcriteria
+Input: Secondaryoutcome AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({AllLAGKeyWord within Secondaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String OldFiniding = (String)headann.getFeatures().get("Finding");
+String PostNeg = (String)headann.getFeatures().get("PostNeg");
+String PreNeg = (String)headann.getFeatures().get("PreNeg");
+
+features.put("PostNeg",PostNeg);
+features.put("PreNeg",PreNeg);
+features.put("Text",FinalText);
+features.put("Section","Secondaryoutcome");
+features.put("Rule","SectionHigh7");
+if(OldFiniding.equalsIgnoreCase("Positive")){
+features.put("Finding","Complementary");
+}else{
+String Finding = (String)headann.getFeatures().get("Finding");
+features.put("Finding",Finding);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalLAGKeywords", features);
+}
+
+Phase: OriginalMarkupTrailcriteria2
+Input: Primaryoutcome AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh2
+(
+({AllLAGKeyWord within Primaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String OldFiniding = (String)headann.getFeatures().get("Finding");
+String PostNeg = (String)headann.getFeatures().get("PostNeg");
+String PreNeg = (String)headann.getFeatures().get("PreNeg");
+
+features.put("PostNeg",PostNeg);
+features.put("PreNeg",PreNeg);
+features.put("Text",FinalText);
+features.put("Section","Primaryoutcome");
+features.put("Rule","SectionHigh7");
+if(OldFiniding.equalsIgnoreCase("Positive")){
+features.put("Finding","Complementary");
+}else{
+String Finding = (String)headann.getFeatures().get("Finding");
+features.put("Finding",Finding);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalLAGKeywords", features);
+}
+
+Phase: OriginalMarkupTrailcriteria3
+Input: Criteria AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh3
+(
+({AllLAGKeyWord within Criteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Section","Criteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLAGKeywords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria4
+Input: DetailedDes AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({AllLAGKeyWord within DetailedDes})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Section","DetailedDes");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLAGKeywords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({AllLAGKeyWord within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLAGKeywords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: OfficialTitle AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({AllLAGKeyWord within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLAGKeywords",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: OtherOutcome AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh7
+(
+({AllLAGKeyWord within OtherOutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String OldFiniding = (String)headann.getFeatures().get("Finding");
+String PostNeg = (String)headann.getFeatures().get("PostNeg");
+String PreNeg = (String)headann.getFeatures().get("PreNeg");
+
+features.put("PostNeg",PostNeg);
+features.put("PreNeg",PreNeg);
+features.put("Text",FinalText);
+features.put("Section","OtherOutcome");
+features.put("Rule","SectionHigh7");
+if(OldFiniding.equalsIgnoreCase("Positive")){
+features.put("Finding","Complementary");
+}else{
+String Finding = (String)headann.getFeatures().get("Finding");
+features.put("Finding",Finding);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalLAGKeywords", features);
+}
+
+=========================
+Phase: OriginalMarkup
+Input: LagKeyWords postNegation preNeg SentEnd BreakPoint Brekwords Complementary Sentence
+Options: control = appelt
+
+Rule:DataPoints
+(
+    (
+        ({preNeg}|{Complementary})?       
+         ({LagKeyWords})[1,5]
+		({postNegation}|{Complementary})?
+    )
+):disease
+-->
+{ 
+ AnnotationSet disease = (AnnotationSet)bindings.get("disease"); 
+ AnnotationSet DiseaseSet =(AnnotationSet)disease.get("LagKeyWords");
+ AnnotationSet PostNegSet =(AnnotationSet)disease.get("postNegation");
+ boolean flag = false;
+ String PostNegText = null;
+
+ 
+ if(PostNegSet !=null && !PostNegSet.isEmpty()){
+  Annotation postann = (gate.Annotation)PostNegSet.iterator().next();
+  PostNegText = (String)postann.getFeatures().get("Text");
+}
+ flag = true;
+ int size,count=1;
+ ArrayList disList = new ArrayList(DiseaseSet);
+ Collections.sort(disList, new OffsetComparator());
+ size = disList.size();
+ for(Iterator iterator = disList.iterator();iterator.hasNext();count++)
+ {
+ Annotation diseaseAnn =(Annotation)iterator.next();	 
+ gate.FeatureMap features = diseaseAnn.getFeatures();
+  AnnotationSet PreNegSet =(AnnotationSet)disease.get("preNeg");
+
+  AnnotationSet CompSet =(AnnotationSet)disease.get("Complementary");
+  features.put("Rule","DataPoints");
+  if(PreNegSet!=null&&!PreNegSet.isEmpty()){
+  Annotation headann = (gate.Annotation)PreNegSet.iterator().next();
+  String PreNegText = (String)headann.getFeatures().get("Text");
+  features.put("Finding","Negative");
+  features.put("PreNeg",PreNegText);
+  }else if(CompSet!=null&&!CompSet.isEmpty()){
+  features.put("Finding","Complementary");
+  }else{
+    if(features.get("Finding")==null)
+    features.put("Finding","Positive");
+  }
+  if(count==size && flag ==true)
+	features.put("Finding","Negative");
+	features.put("PostNeg",PostNegText);
+  outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"AllLAGKeyWord",features);
+ }
+} 

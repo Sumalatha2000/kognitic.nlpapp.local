@@ -1,0 +1,212 @@
+Phase: OriginalMarkup
+Input: brief_title official_title arm_group condition detailed_description brief_summary secondary_outcome primary_outcome other_outcome criteria
+Options: control = appelt
+
+Rule: brieftitle
+(
+({brief_title}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"BriefTitle", features);
+}
+
+Rule: officialtitle
+(
+({official_title}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"OfficialTitle", features);
+}
+
+
+Rule: arm_group
+(
+({arm_group}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"ArmGroup", features);
+}
+
+Rule: condition
+(
+({condition}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"Condition", features);
+}
+
+Rule: detaileddescription
+(
+({detailed_description}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"DetailedDes", features);
+}
+
+Rule: brief_summary
+(
+({brief_summary}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"BriefSummary", features);
+}
+
+Rule: secondaryoutcome
+(
+({secondary_outcome}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"Secondaryoutcome", features);
+}
+
+
+Rule: primaryoutcome
+(
+({primary_outcome}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"Primaryoutcome", features);
+}
+
+Rule: otheroutcome
+(
+({other_outcome}):content
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"OtherOutcome", features);
+}

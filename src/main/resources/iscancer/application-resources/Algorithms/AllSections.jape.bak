@@ -1,0 +1,42 @@
+Phase: OriginalMarkupTrailcriteria4
+Input: Condition Ca
+Options: control = once
+
+Rule: SectionHigh4
+(
+({Ca within Condition})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Ca");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+/*
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+*/
+features.put("isCancer","Yes");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"CaTrail",features);
+}
+}

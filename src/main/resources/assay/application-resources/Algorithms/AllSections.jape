@@ -1,0 +1,328 @@
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle AssayTest
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({AssayTest within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle AssayTest
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({AssayTest within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria8
+Input: ArmGroup AssayTest
+Options: control = appelt
+
+Rule: SectionHigh8
+(
+({AssayTest within ArmGroup})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+
+features.put("Section","ArmGroup");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Condition AssayTest
+Options: control = appelt
+
+Rule: SectionHigh10
+(
+({AssayTest within Condition})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+
+features.put("Section","Condition");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria341
+Input: InclusionCriteria AssayTestSentence
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({AssayTestSentence within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTestSentence");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+
+
+features.put("Section","InclusionCriteriaBySentence");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"InclusionSentence",features);
+}
+}
+
+
+
+Phase: OriginalMarkupTrailcriteria4
+Input: DetailedDes AssayTest
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({AssayTest within DetailedDes})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","DetailedDes");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria4
+Input: BriefSummary AssayTest
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({AssayTest within BriefSummary})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","BriefSummary");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria
+Input: Secondaryoutcome AssayTest
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({AssayTest within Secondaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","Secondaryoutcome");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria2
+Input: Primaryoutcome AssayTest
+Options: control = appelt
+
+Rule: SectionHigh2
+(
+({AssayTest within Primaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","Primaryoutcome");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria7
+Input: OtherOutcome AssayTest
+Options: control = appelt
+
+Rule: SectionHigh7
+(
+({AssayTest within OtherOutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","OtherOutcome");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria35
+Input: PrimaryObjective AssayTest
+Options: control = appelt
+
+Rule: SectionHigh13
+(
+({AssayTest within PrimaryObjective})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","PrimaryObjective");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria36
+Input: SecondaryObjective AssayTest
+Options: control = appelt
+
+Rule: SectionHigh13
+(
+({AssayTest within SecondaryObjective})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","SecondaryObjective");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+
+/*
+Phase: OriginalMarkupTrailcriteria36
+Input: Criteria AssayTest
+Options: control = appelt
+
+Rule: SectionHigh13
+(
+({AssayTest within Criteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","Criteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"SectionAssayTest",features);
+}
+}
+*/

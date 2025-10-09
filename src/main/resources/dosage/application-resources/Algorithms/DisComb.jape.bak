@@ -1,0 +1,56 @@
+Phase: SectionEnd
+Input: Token EndOfLine
+Options: control = appelt
+
+Rule: comb
+(
+(
+({Token.category == "NN"}{Token.kind == "number"})
+)|
+(
+(
+({Token.kind == "number"})
+(
+({Token.kind == "punctuation"})|
+({Token.kind == "punctuation"}{Token.category == "CC"})
+)
+({Token.kind == "number"})?
+)[1,4]
+)|
+(
+({Token.kind == "number"})({Token.category == "CC"}|{Token.kind == "word"})({Token.kind == "number"})
+)|
+(
+({Token.kind == "number"}{Token.category == "CC"}{EndOfLine}{Token.kind == "number"})
+)
+):line
+-->
+:line.Pstatus = {Rule = "comb", Text = :line@cleanString}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: Ecog Token Pstatus
+Options: control = brill
+
+Rule: SectionHigh5
+(
+({Ecog})
+({Token})[0,15]
+({Pstatus})
+):line
+-->
+:line.Ecogcomb = {Rule = "Final", Text = :line@cleanString,Ecog = :line.Ecog.Ecog,Pstatus = :line.Pstatus.Text}
+
+Phase: SectionEnd
+Input: Token Drugs
+Options: control = appelt
+
+Rule: comb
+(
+(
+({Token})[1,10]
+({Drugs})
+({Token})[1,10]
+)
+):line
+-->
+:line.therapy = {Rule = "comb", Text = :line@cleanString, Drugs = :line.Drugs.Text}

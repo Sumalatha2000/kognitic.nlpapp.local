@@ -1,0 +1,134 @@
+Phase: Remove
+Input: exposure
+Options: control = all
+
+Rule: removeFinalDrugs
+(
+{exposure}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet exposure = totalset.get("exposure");
+inputAS.removeAll(totalset);
+if (exposure != null && !exposure.isEmpty()){
+ArrayList flist = new ArrayList(exposure);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"exposure",features);
+}
+}
+}
+}
+
+Phase: Remove2
+Input: drug
+Options: control = all
+
+Rule: removeFinalDrugs
+(
+{drug}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet drug = totalset.get("drug");
+inputAS.removeAll(totalset);
+if (drug != null && !drug.isEmpty()){
+ArrayList flist = new ArrayList(drug);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"drug",features);
+}
+}
+}
+}
+
+Phase: SectionEnd
+Input: Token drug exposure
+Options: control = appelt
+
+Rule: comb
+(
+(
+({exposure})
+({Token, Token.string != ".", Token.string != "-"})[0,10]
+({drug})
+)|
+(
+({drug})
+({Token, Token.string != ".", Token.string != "-"})[0,10]
+({exposure})
+)
+):line
+-->
+:line.tempe = {Rule = "comb111", Text = :line@cleanString, exposure = :line.exposure.Text, drug = :line.drug.Text}
+
+
+Rule:comb3	/* Has received at least 2 consecutive cycles of a proteasome inhibitor (PI).*/
+(
+({exposure})
+({Token, Token.string != "-"})[0,8]
+(
+({drug})
+({Token, Token.string != "-"})[0,6]
+)[1,8]
+):Primary
+-->
+{
+String mydocContent=doc.getContent().toString();
+AnnotationSet disease = (AnnotationSet)bindings.get("Primary");
+AnnotationSet siteSet = disease.get("drug");
+
+AnnotationSet disorderSet = disease.get("exposure");
+Annotation disorderAnn =(Annotation)disorderSet.iterator().next();	
+String exposure = (String)disorderAnn.getFeatures().get("Text");
+
+ArrayList disList = new ArrayList(siteSet);
+Collections.sort(disList, new OffsetComparator());
+for(Iterator iterator = disList.iterator();iterator.hasNext();)
+{
+gate.FeatureMap features = Factory.newFeatureMap(); 
+Annotation diseaseAnn =(Annotation)iterator.next();
+int cstartPos = (int)diseaseAnn.getStartNode().getOffset().longValue();    
+int cendPos = (int)diseaseAnn.getEndNode().getOffset().longValue();
+String content = mydocContent.substring(cstartPos,cendPos);
+String drug = (String)diseaseAnn.getFeatures().get("Text");
+
+
+features.put("Rule","comb321");
+features.put("drug",drug);
+features.put("exposure",exposure);
+outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"tempe",features);
+}
+}
+
+Rule: comb
+(
+({drug})
+):line
+-->
+:line.tempe = {Rule = "comb", Text = :line@cleanString, exposure = :line.exposure.Text, drug = :line.drug.Text}
+
+Phase: SectionEnd
+Input: Token tempe
+Options: control = brill
+
+Rule: comb
+(
+({Token})[0,20]
+({tempe})
+({Token})[0,20]
+):line
+-->
+:line.pe = {Rule = :line.tempe.Rule, Text = :line@cleanString, exposure = :line.tempe.exposure, drug = :line.tempe.drug}

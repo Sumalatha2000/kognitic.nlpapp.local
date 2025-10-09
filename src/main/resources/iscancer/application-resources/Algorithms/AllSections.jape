@@ -1,0 +1,99 @@
+Phase: OriginalMarkupTrailcriteria4
+Input: Condition Ca
+Options: control = once
+
+Rule: SectionHigh4
+(
+({Ca within Condition})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Ca");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("isCancer","Yes");
+features.put("Section","Condition");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"CaTrail",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria41
+Input: OfficialTitle Ca
+Options: control = once
+
+Rule: SectionHigh4
+(
+({Ca within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Ca");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("isCancer","Yes");
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"CaTrail",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria42
+Input: BriefTitle Ca
+Options: control = once
+
+Rule: SectionHigh4
+(
+({Ca within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Ca");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("isCancer","Yes");
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"CaTrail",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria43
+Input: BriefSummary Ca
+Options: control = once
+
+Rule: SectionHigh4
+(
+({Ca within BriefSummary})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Ca");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("isCancer","Yes");
+features.put("Section","BriefSummary");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"CaTrail",features);
+}
+}

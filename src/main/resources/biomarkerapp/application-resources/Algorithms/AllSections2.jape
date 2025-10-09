@@ -1,0 +1,23 @@
+/*
+Phase: OriginalMarkupTrailcriteria3
+Input: Criteria AllLAGKeyWord
+Options: control = appelt
+
+Rule: SectionHigh3
+(
+({AllLAGKeyWord within Criteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AllLAGKeyWord");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Section","Criteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalLAGKeywords",features);
+}
+}*/

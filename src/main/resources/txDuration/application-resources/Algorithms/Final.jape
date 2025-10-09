@@ -1,0 +1,12 @@
+Phase: OriginalMarkupTrailcriteria5
+Input: SectionEcog Token Pstatus EndOfLine
+Options: control = brill
+
+Rule: SectionHigh5
+(
+({SectionEcog})
+({Token})[0,5]
+({Pstatus})
+):line
+-->
+:line.FinalEcog = {Rule = "Final", Text = :line@cleanString,SectionEcog = :line.SectionEcog.Ecog,Pstatus = :line.Pstatus.Text}

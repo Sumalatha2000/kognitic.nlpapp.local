@@ -1,0 +1,285 @@
+Phase: SectionEnd123
+Input: Token
+Options: control = appelt
+Rule: endline
+(
+({Token.string == "L"}{Token.string == "19"}{Token.string == "TNFα"}):line
+)
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Phase: SectionEnd1234
+Input: RemoveToken
+Options: control = appelt
+Rule: removebreakline
+(
+{RemoveToken}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet RemoveToken = totalset.get("RemoveToken");
+inputAS.removeAll(totalset);
+if (RemoveToken != null && !RemoveToken.isEmpty()){
+ArrayList flist = new ArrayList(RemoveToken);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"RemoveToken",features);
+}
+}
+}
+}
+
+Phase: ALKTokenRemove
+Input: Token
+Options: control = appelt
+
+Rule: endline
+(
+(({Token.string ==~ "(?i)alk"})|({Token.string ==~ "(?i)Alkaline"}))
+({Token.string == "."})?
+(({Token.string ==~ "(?i)Phosph"})|({Token.string ==~ "(?i)Phos"})|({Token.string ==~ "(?i)Phosphatase"})|({Token.string ==~ "(?i)Phospate"}))
+):line
+
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Rule: removePR
+(
+(({Token.string == "("})|({Token.string == "PR"})|({Token.string == ")"}))
+):line
+
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Phase: SectionEnd1234
+Input: RemoveToken
+Options: control = appelt
+Rule: removebreakline
+(
+{RemoveToken}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet RemoveToken = totalset.get("RemoveToken");
+inputAS.removeAll(totalset);
+if (RemoveToken != null && !RemoveToken.isEmpty()){
+ArrayList flist = new ArrayList(RemoveToken);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"RemoveToken",features);
+}
+}
+}
+}
+
+Phase: EOL
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: Split
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+/*isCancer*/
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Ca
+(
+{Lookup.majorType == "cancer"}
+):Heading
+-->
+:Heading.Ca = {Rule = "Ca", Text = :Heading@cleanString}
+
+/*Indications*/
+
+Phase: CoomaEnd
+Input: Token
+Options: control = appelt
+
+Rule: Comma
+(
+({Token.string == ","}):line
+)
+-->
+:line.Comma = {Rule = "Comma"}
+
+Rule: SickleCell
+(
+({Token.string ==~ "(?i)Sickle"}{Token.string ==~ "(?i)Cell"}{Token.string ==~ "(?i)Disease"}):line
+)
+-->
+:line.Disease1 = {Rule = "SickleCell", Text = :line@cleanString}
+
+Rule: myelodysplastic
+(
+({Token.string ==~ "(?i)myelodysplastic"}({Token.string ==~ "(?i)syndrome"}|{Token.string ==~ "(?i)syndromes"})):line
+)
+-->
+:line.Disease1 = {Rule = "myelodysplastic", Text = :line@cleanString}
+
+/*
+Rule: MCL
+(
+({Token.string == "MCL"}):line
+)
+-->
+:line.Disease1 = {Rule = "MCL", Text = :line@cleanString}
+*/
+
+Rule: multipleMyeloma
+(
+({Token.string ==~ "(?i)Multiple"}{Token.string ==~ "(?i)Myeloma"}):line
+)
+-->
+:line.Disease1 = {Rule = "multipleMyeloma", Text = :line@cleanString}
+
+Rule: oralcancer
+(
+(({Token.string ==~ "(?i)Oral"})({Token.string ==~ "(?i)cancer"}|{Token.string ==~ "(?i)Adenocarcinoma"}|{Token.string ==~ "(?i)Adenocarcinomas"}|{Token.string ==~ "(?i)Cancers"}|{Token.string ==~ "(?i)Carcinoma"}|{Token.string ==~ "(?i)cancerCarcinomas"}|{Token.string ==~ "(?i)Malignancies"}|{Token.string ==~ "(?i)Malignancy"}|{Token.string ==~ "(?i)Neoplasia"}|{Token.string ==~ "(?i)Neoplasm"}|{Token.string ==~ "(?i)Neoplasms"}|{Token.string ==~ "(?i)Tumor"}|{Token.string ==~ "(?i)Tumors"}|{Token.string ==~ "(?i)Tumour"}|{Token.string ==~ "(?i)Tumours"})):line
+)
+-->
+:line.Disease1 = {Rule = "oralcancer", Text = :line@cleanString}
+
+Rule: bonecancer
+(
+(({Token.string ==~ "(?i)Bone"})({Token.string ==~ "(?i)cancer"}|{Token.string ==~ "(?i)Adenocarcinoma"}|{Token.string ==~ "(?i)Adenocarcinomas"}|{Token.string ==~ "(?i)Cancers"}|{Token.string ==~ "(?i)Carcinoma"}|{Token.string ==~ "(?i)cancerCarcinomas"}|{Token.string ==~ "(?i)Malignancies"}|{Token.string ==~ "(?i)Malignancy"}|{Token.string ==~ "(?i)Neoplasia"}|{Token.string ==~ "(?i)Neoplasm"}|{Token.string ==~ "(?i)Neoplasms"}|{Token.string ==~ "(?i)Tumor"}|{Token.string ==~ "(?i)Tumors"}|{Token.string ==~ "(?i)Tumour"}|{Token.string ==~ "(?i)Tumours"})):line
+)
+-->
+:line.Disease1 = {Rule = "bonecancer", Text = :line@cleanString}
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Disease
+(
+{Lookup.majorType == "disease"}
+):Heading
+-->
+:Heading.Disease = {Disease = :Heading@cleanString, Rule = "Disease"}
+
+Rule: Disease1
+(
+{Lookup.majorType == "disease1"}
+):Heading
+-->
+:Heading.Disease1 = {Text = :Heading@cleanString, Rule = "Disease1"}
+
+Rule: Site
+(
+{Lookup.majorType == "site"}
+):Heading
+-->
+:Heading.Site = {Rule = "Site", Text = :Heading@cleanString}
+
+
+Rule: Site2
+(
+{Lookup.majorType == "site2"}
+):Heading2
+-->
+:Heading2.Site2 = {Rule = "Site2", Text = :Heading2@cleanString}
+
+Rule: preNeg
+(
+{Lookup.majorType == "preNeg"}
+):phm
+-->
+:phm.preNeg = {Rule = "preNeg", Text = :phm@cleanString}
+
+Rule: postNeg
+(
+{Lookup.majorType == "postNeg"}
+):rote
+-->
+:rote.postNegation = {Rule = "postNeg", Text = :rote@cleanString}
+
+Rule: tconcept
+(
+{Lookup.majorType == "tconcept"}
+):rote
+-->
+:rote.Tconcept = {Rule = "postNeg", Text = :rote@cleanString}
+
+Rule: inpop
+(
+{Lookup.majorType == "population"}
+):ip
+-->
+:ip.Population = {Rule = "inpop", Text = :ip@cleanString}
+
+Rule: Criteria10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Criteria10", Text = :criteria@cleanString}
+
+Rule: breakword
+(
+{Lookup.majorType == "brekwords"}
+):brekwords
+-->
+:brekwords.Brekwords = {Rule = "breakword", Text = :brekwords@cleanString}
+
+
+Rule: comband
+(
+{Lookup.majorType == "comb"}
+):comb
+-->
+:comb.Comb = {Rule = "comb", Text = :comb@cleanString}
+
+Rule: Biomarkers
+(
+{Lookup.majorType == "Lag"}
+):Heading
+-->
+:Heading.LagKeyWords = {Rule = "Biomarkers", Text = :Heading@cleanString, Finding = "Complimentary", Rule = "Headings"}
+
+Phase: SectionEnd
+Input: oversight_info
+Options: control = appelt
+
+Rule: OsInfo
+(  
+{oversight_info}
+):end
+-->  
+:end.OversightInfo = {rule = "OsInfo"}

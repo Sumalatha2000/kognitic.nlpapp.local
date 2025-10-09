@@ -1,0 +1,115 @@
+Phase: Combination
+Input: Population FinalIndications BreakPoint Brekwords SectionEnd SentEnd Comma Comb
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({Population})?
+({FinalIndications})
+({Population})?
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("FinalIndications");
+
+gate.FeatureMap features = Factory.newFeatureMap();
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Disease = (String)headann.getFeatures().get("Disease");
+String Site = (String)headann.getFeatures().get("Site");
+String Site2 = (String)headann.getFeatures().get("Site2");
+String Tconcept = (String)headann.getFeatures().get("Tconcept");
+String Section = (String)headann.getFeatures().get("Section");
+String Finding = (String)headann.getFeatures().get("Finding");
+
+
+features.put("Text",FinalText);
+features.put("Disease",Disease);
+features.put("Site",Site);
+features.put("Site2",Site2);
+features.put("Section",Section);
+features.put("Rule","SectionHigh12");
+features.put("Finding",Finding);
+features.put("Tconcept",Tconcept);
+
+AnnotationSet popSet =(AnnotationSet)units.get("Population");
+if(popSet!=null&&!popSet.isEmpty()){
+Annotation pAnn =(Annotation)popSet.iterator().next();		
+String Population = (String)pAnn.getFeatures().get("Text");
+features.put("Population", Population);
+}
+
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalINP", features);
+}
+
+
+Rule: SectionHigh123
+(
+(({Population}):P1)
+({Brekwords.Text == "or"}|{Comb})
+(({Population}):P2)
+({FinalIndications})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("FinalIndications");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Disease = (String)headann.getFeatures().get("Disease");
+String Site = (String)headann.getFeatures().get("Site");
+String Site2 = (String)headann.getFeatures().get("Site2");
+String Tconcept = (String)headann.getFeatures().get("Tconcept");
+String Section = (String)headann.getFeatures().get("Section");
+String Finding = (String)headann.getFeatures().get("Finding");
+
+
+features.put("Text",FinalText);
+features.put("Disease",Disease);
+features.put("Site",Site);
+features.put("Site2",Site2);
+features.put("Section",Section);
+features.put("Rule","SectionHigh12");
+features.put("Finding",Finding);
+features.put("Tconcept",Tconcept);
+
+AnnotationSet Pset2 = (AnnotationSet)bindings.get("P2");
+AnnotationSet popSet2 =(AnnotationSet)Pset2.get("Population");
+if(popSet2!=null&&!popSet2.isEmpty()){
+Annotation pAnn2 =(Annotation)popSet2.iterator().next();		
+String Population = (String)pAnn2.getFeatures().get("Text");
+features.put("Population", Population);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalINP", features);
+
+gate.FeatureMap features2 = Factory.newFeatureMap();
+
+features2.put("Text",FinalText);
+features2.put("Disease",Disease);
+features2.put("Site",Site);
+features2.put("Site2",Site2);
+features2.put("Section",Section);
+features2.put("Rule","SectionHigh12");
+features2.put("Finding",Finding);
+features2.put("Tconcept",Tconcept);
+
+AnnotationSet Pset1 = (AnnotationSet)bindings.get("P1");
+AnnotationSet popSet1 =(AnnotationSet)Pset1.get("Population");
+if(popSet1!=null&&!popSet1.isEmpty()){
+Annotation pAnn1 =(Annotation)popSet1.iterator().next();		
+String Population2 = (String)pAnn1.getFeatures().get("Text");
+features2.put("Population", Population2);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalINP", features2);
+}

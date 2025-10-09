@@ -1,0 +1,112 @@
+Phase: Sections2
+Input: SectionCriteria SectionEnd Token
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionEnd})
+({Token.string == "-"})?
+({SectionCriteria})
+({Token.string == ":"})?
+({SectionEnd})
+):Subsect
+-->
+:Subsect.SectionHeading = {Rule = "SubSec", Heading = :Subsect@cleanString}
+
+Phase: Sections3
+Input: SectionHeading Sentence Gender
+Options: control = once
+
+Rule:SubSec
+(
+({SectionHeading})
+(({Sentence})*):maincontent
+(({SectionHeading})|({Gender}))
+):content
+-->
+:content.InclusionCriteria = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+Phase: Sections323
+Input: Gender InclusionCriteria Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({InclusionCriteria})
+(({Sentence})*):maincontent
+({Gender})
+):content
+-->
+:maincontent.ExlusionCriteria = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+Phase: Sections
+Input: Objectives SectionEnd Token
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionEnd})
+({Token.string == "-"})?
+({Objectives})
+({Token.string == ":"})?
+({SectionEnd})
+):Subsect
+-->
+:Subsect.ObjectivesHeading = {Rule = "SubSec", Heading = :Subsect@cleanString}
+
+Phase: Sections4
+Input: ObjectivesHeading Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({ObjectivesHeading})
+(({Sentence})*):maincontent
+({ObjectivesHeading})
+):content
+-->
+:content.PrimaryObjective = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+Phase: Sections3234
+Input: OverallStatus PrimaryObjective Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({PrimaryObjective})
+(({Sentence})*):maincontent
+({OverallStatus})
+):content
+-->
+:maincontent.SecondaryObjective = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+
+Phase: GenderAnnot1212323
+Input: BioSentence AssayTest
+Options: control = appelt
+Rule: GenderRule
+({AssayTest within BioSentence}):fp
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("fp");
+AnnotationSet UnitSet = (AnnotationSet)units.get("AssayTest");
+
+
+AnnotationSet allSet = inputAS.get(gate.Utils.start(UnitSet),gate.Utils.end(UnitSet));
+AnnotationSet SAset = allSet.get("BioSentence");
+Annotation SAann = (gate.Annotation)SAset.iterator().next();
+String MatchedSent = (String)SAann.getFeatures().get("Sentence");
+Annotation Bann = (gate.Annotation)SAset.iterator().next();
+String Bio = (String)Bann.getFeatures().get("Biomarker");
+
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+features.put("Sentence", MatchedSent);
+features.put("Biomarker", Bio);
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"AssayTestSentence",features);
+}
+}

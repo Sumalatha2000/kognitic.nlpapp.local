@@ -1,0 +1,55 @@
+Phase: Sections2
+Input: SectionCriteria SectionEnd Token
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionEnd})
+({Token.string == "-"})?
+({SectionCriteria})
+({Token.string == ":"})?
+({SectionEnd})
+):Subsect
+-->
+:Subsect.SectionHeading = {Rule = "SubSec", Heading = :Subsect@cleanString}
+
+Phase: Sections3
+Input: SectionHeading Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionHeading})
+(({Sentence})*):maincontent
+({SectionHeading})
+):content
+-->
+:content.InclusionCriteria = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+Phase: Sections323
+Input: Gender InclusionCriteria Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({InclusionCriteria})
+(({Sentence})*):maincontent
+({Gender})
+):content
+-->
+:maincontent.ExlusionCriteria = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+/*
+Phase: RoA
+Input: Drugs Route Token
+Options: control = appelt
+
+Rule:RoAComb
+(
+({Drugs}):drug
+({Token, Token.string != "."})[0,8]
+({Route}):route
+):maincontent
+-->
+:maincontent.RoA = {Rule = "RoAComb", Drug = :drug@cleanString, Route = :route@cleanString, Text = :maincontent@cleanString}
+*/

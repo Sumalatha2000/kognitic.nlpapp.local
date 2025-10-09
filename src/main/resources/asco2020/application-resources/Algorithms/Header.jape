@@ -1,0 +1,44 @@
+Phase:FirstPhase
+Input:Lookup
+Options:control=appelt
+
+Rule:Postersessions
+(
+ {Lookup.majorType == poster}
+):ps 
+-->
+:ps.PosterSessions = {rule = "Postersessions",Text=:ps@cleanString}
+
+Phase: PageHeadingPhase
+Input: PosterSessions Token
+Options: control = appelt
+
+Rule: PageHeading
+(
+ ({Token.kind ==number})({PosterSessions})
+):pageHeading 
+-->
+:pageHeading.PageHeading = {rule = "PageHeading",Text=:pageHeading@cleanString}
+
+
+Phase:SecondPhase
+Input:Lookup
+Options:control=appelt
+
+Rule:Headers
+(
+ {Lookup.majorType == headings}
+):header 
+-->
+:header.Heading = {rule = "Headings",Text=:header@cleanString}
+
+Phase: MHPhase
+Input: Heading Token
+Options: control = appelt
+
+Rule: MH
+(
+ ({Heading})({Token.string ==":"})
+):mainHeading 
+-->
+:mainHeading.MainHeading = {rule = "MH",Text=:mainHeading@cleanString}

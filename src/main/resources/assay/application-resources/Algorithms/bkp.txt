@@ -1,0 +1,308 @@
+Phase: OriginalMarkupTrailcriteria2
+Input: S123 S1
+Options: control = appelt
+
+Rule: SectionHigh
+(
+(({S123 contains S1}):all)
+):sample
+-->
+/*:sample.S1234 = {Rule = "endline",Sent = :all@cleanString}*/
+{
+AnnotationSet disease = (AnnotationSet)bindings.get("sample"); 
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet DiseaseSet =(AnnotationSet)disease.get("S123");
+Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+String FullText = (String)headann.getFeatures().get("Sent");
+
+features.put("FullText",FullText);
+outputAS.add(all.firstNode(),all.lastNode(),"S12345", features);
+}
+
+/*
+AnnotationSet AssaySet =(AnnotationSet)all.get("S2");
+Annotation headann = (gate.Annotation)AssaySet.iterator().next();
+String AssayText = (String)headann.getFeatures().get("AssayText");
+*/
+
+************************************************************
+*
+Phase: OriginalMarkupTrailcriteria2
+Input: S123 S1
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({S123 contains S1})
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("sample");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"S12345", features);
+}
+
+
+Phase: OriginalMarkupTrailcriteria234
+Input: S12345 S2
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({S12345 contains S2})
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+
+AnnotationSet sSet = all.get("S2");
+AnnotationSet AssaySet =(AnnotationSet)all.get("S2");
+System.out.println("To print set ===> "+all.toString());
+
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("S2");
+System.out.println("To print UnitSet ===> "+UnitSet.toString());
+
+ AnnotationSet span    = (gate.AnnotationSet) bindings.get("sample");
+System.out.println("To print span ===> "+span.toString());
+
+
+
+
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("sample");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+
+outputAS.add(all.firstNode(),all.lastNode(),"S123456", features);
+}
+*/
+
+
+
+
+
+=============================================================================
+13-07-2021
+Phase: OriginalMarkupTrailcriteria
+Input: Token
+Options: control = appelt
+Rule: test
+(
+({Token.string == "Granular"})
+):sample
+-->
+:sample.S1 = {Rule = "endline"}
+
+Rule: test2
+(
+({Token.string == "With"})
+):sample
+-->
+:sample.S2 = {Rule = "endline",AssayText = :sample@cleanString}
+
+Phase: OriginalMarkupTrailcriteria3
+Input: Sentence
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({Sentence})
+):sample
+-->
+:sample.S123 = {Rule = "endline",Sent = :sample@cleanString}
+
+Phase: OriginalMarkupTrailcriteria2365
+Input: S2 S123
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({S2 within S123}):annot
+):sample
+-->
+/*:sample.S123 = {Rule = "endline",AssayText = :test@cleanString}*/
+{
+AnnotationSet disease = (AnnotationSet)bindings.get("annot"); 
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet DiseaseSet =(AnnotationSet)disease.get("S2");
+Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+String AssayText = (String)headann.getFeatures().get("AssayText");
+
+features.put("AssayText",AssayText);
+outputAS.add(disease.firstNode(),disease.lastNode(),"S1234", features);
+}
+
+Phase: OriginalMarkupTrailcriteria2
+Input: S123 S2
+Options: control = appelt
+
+Rule: SectionHigh
+(
+(({S123 contains S2}):all)
+):sample
+-->
+/*:sample.S1234 = {Rule = "endline",Sent = :all@cleanString}*/
+{
+AnnotationSet disease = (AnnotationSet)bindings.get("sample"); 
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet DiseaseSet =(AnnotationSet)disease.get("S123");
+Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+String FullText = (String)headann.getFeatures().get("Sent");
+
+features.put("FullText",FullText);
+outputAS.add(disease.firstNode(),disease.lastNode(),"S12345", features);
+}
+
+Phase: OriginalMarkupTrailcriteria2365
+Input: S2 S123
+Options: control = All
+
+Rule: SectionHigh
+(
+({S2 within S123}):annot1
+({S123 contains S2}):annot2
+):sample
+-->
+{
+AnnotationSet disease = (AnnotationSet)bindings.get("sample"); 
+AnnotationSet annot1set = (AnnotationSet)bindings.get("annot1");
+AnnotationSet annot2set = (AnnotationSet)bindings.get("annot2"); 
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet annot1 =(AnnotationSet)annot1set.get("S2");
+Annotation annot1ann = (gate.Annotation)annot1.iterator().next();
+String AssayText = (String)annot1ann.getFeatures().get("AssayText");
+
+AnnotationSet annot2 =(AnnotationSet)annot2set.get("S123");
+Annotation annot2ann = (gate.Annotation)annot2.iterator().next();
+String FullText = (String)annot2ann.getFeatures().get("Sent");
+
+System.out.println("To print Annot1 ===> "+annot1.toString());
+System.out.println("To print Annot2 ===> "+annot2.toString());
+
+
+features.put("AssayText",AssayText);
+features.put("FullText",FullText);
+outputAS.add(disease.firstNode(),disease.lastNode(),"AAAAAAAAAA", features);
+}
+
+Phase: Products_det
+Input: S12345 S2
+Options: control = all
+
+Rule: Products
+(
+({S12345}):Pname
+):FinalP
+-->
+:FinalP.FinalProducts = {Rule = "Products", ProductName = :Pname@cleanString}
+
+==============================================================================================
+
+Phase: OriginalMarkupTrailcriteria2365
+Input: S2 S123
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({S2 within S123}):annot1
+|
+({S123 contains S2}):annot2
+):sample
+-->
+/*:sample.S123 = {Rule = "endline",AssayText = :test@cleanString}*/
+{
+AnnotationSet annot1set = (AnnotationSet)bindings.get("annot1");
+AnnotationSet annot2set = (AnnotationSet)bindings.get("annot2"); 
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet annot1 =(AnnotationSet)annot1set.get("S2");
+Annotation annot1ann = (gate.Annotation)annot1.iterator().next();
+String AssayText = (String)annot1ann.getFeatures().get("AssayText");
+
+AnnotationSet annot2 =(AnnotationSet)annot2set.get("S123");
+Annotation annot2ann = (gate.Annotation)annot2.iterator().next();
+String FullText = (String)headann.getFeatures().get("Sent");
+
+
+features.put("AssayText",AssayText);
+features.put("FullText",FullText);
+outputAS.add(disease.firstNode(),disease.lastNode(),"S1234", features);
+}
+
+Phase: OriginalMarkupTrailcriteria2
+Input: S123 S2
+Options: control = appelt
+
+Rule: SectionHigh
+(
+(({S123 contains S1}):all)
+):sample
+-->
+/*:sample.S1234 = {Rule = "endline",Sent = :all@cleanString}*/
+{
+AnnotationSet disease = (AnnotationSet)bindings.get("sample"); 
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet DiseaseSet =(AnnotationSet)disease.get("S123");
+Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+String FullText = (String)headann.getFeatures().get("Sent");
+
+features.put("FullText",FullText);
+outputAS.add(disease.firstNode(),disease.lastNode(),"S12345", features);
+}
+
+
+
+Phase: OriginalMarkupTrailcriteria2365
+Input: S2 S123
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({S2 within S123}):annot1
+({S123 contains S2}):annot2
+):sample
+-->
+{
+AnnotationSet disease = (AnnotationSet)bindings.get("sample"); 
+AnnotationSet annot1set = (AnnotationSet)bindings.get("annot1");
+AnnotationSet annot2set = (AnnotationSet)bindings.get("annot2"); 
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet annot1 =(AnnotationSet)annot1set.get("S2");
+/*
+Annotation annot1ann = (gate.Annotation)annot1.iterator().next();
+String AssayText = (String)annot1ann.getFeatures().get("AssayText");
+*/
+AnnotationSet annot2 =(AnnotationSet)annot2set.get("S123");
+/*
+Annotation annot2ann = (gate.Annotation)annot2.iterator().next();
+String FullText = (String)annot2ann.getFeatures().get("Sent");
+*/
+System.out.println("To print Annot1 ===> "+annot1.toString());
+System.out.println("To print Annot2 ===> "+annot2.toString());
+
+/*features.put("AssayText",AssayText);
+features.put("FullText",FullText);*/
+outputAS.add(disease.firstNode(),disease.lastNode(),"AAAAAAAAAA", features);
+}

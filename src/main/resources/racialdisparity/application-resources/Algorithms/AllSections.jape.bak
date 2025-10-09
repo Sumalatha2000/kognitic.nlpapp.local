@@ -1,0 +1,487 @@
+Phase: OriginalMarkupTrailcriteria
+Input: Secondaryoutcome RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh
+(
+({RacialDisparity within Secondaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","Secondaryoutcome");
+outputAS.add(units.firstNode(),units.lastNode(),"FinalRacialDisparity", features);
+}
+
+
+Phase: OriginalMarkupTrailcriteria2
+Input: Primaryoutcome RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh2
+(
+({RacialDisparity within Primaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","Primaryoutcome");
+outputAS.add(units.firstNode(),units.lastNode(),"FinalRacialDisparity", features);
+}
+
+
+Phase: OriginalMarkupTrailcriteria3
+Input: Criteria RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh3
+(
+({RacialDisparity within Criteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","Criteria");
+outputAS.add(units.firstNode(),units.lastNode(),"FinalRacialDisparity", features);
+}
+
+Phase: OriginalMarkupTrailcriteria4
+Input: DetailedDes RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({RacialDisparity within DetailedDes})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+
+features.put("Section","DetailedDes");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRacialDisparity",features);
+}
+
+Phase: OriginalMarkupTrailcriteria4
+Input: BriefSummary RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({RacialDisparity within BriefSummary})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","BriefSummary");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRacialDisparity",features);
+}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({RacialDisparity within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRacialDisparity",features);
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({RacialDisparity within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRacialDisparity",features);
+}
+
+Phase: OriginalMarkupTrailcriteria7
+Input: OtherOutcome RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh7
+(
+({RacialDisparity within OtherOutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","OtherOutcome");
+
+outputAS.add(units.firstNode(),units.lastNode(),"FinalRacialDisparity", features);
+}
+
+Phase: OriginalMarkupTrailcriteria8
+Input: ArmGroup RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh8
+(
+({RacialDisparity within ArmGroup})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","ArmGroup");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRacialDisparity",features);
+}
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Intervention RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh9
+(
+({RacialDisparity within Intervention})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","Intervention");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRacialDisparity",features);
+}
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Condition RacialDisparity
+Options: control = appelt
+
+Rule: SectionHigh10
+(
+({RacialDisparity within Condition})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("RacialDisparity");
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("BriefTitle");
+AnnotationSet cset = allanot.get("CountryRule");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation cann = (gate.Annotation)cset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String BriefTitle = (String)fpann.getFeatures().get("Text");
+String Country = (String)cann.getFeatures().get("Text");
+
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("BriefTitle", BriefTitle);
+features.put("Country", Country);
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+
+features.put("Text",FinalText);
+features.put("Section","Condition");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRacialDisparity",features);
+}

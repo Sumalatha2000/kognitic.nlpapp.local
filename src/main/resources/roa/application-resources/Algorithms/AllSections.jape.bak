@@ -1,0 +1,261 @@
+Phase: OriginalMarkupTrailcriteria4
+Input: DetailedDes RoA
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({RoA within DetailedDes})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","DetailedDes");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+
+Phase: OriginalMarkupTrailcriteria4
+Input: BriefSummary RoA
+Options: control = appelt
+
+Rule: SectionHigh4
+(
+({RoA within BriefSummary})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","BriefSummary");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria5
+Input: BriefTitle RoA
+Options: control = appelt
+
+Rule: SectionHigh5
+(
+({RoA within BriefTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","BriefTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria6
+Input: OfficialTitle RoA
+Options: control = appelt
+
+Rule: SectionHigh6
+(
+({RoA within OfficialTitle})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","OfficialTitle");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria8
+Input: ArmGroup RoA
+Options: control = appelt
+
+Rule: SectionHigh8
+(
+({RoA within ArmGroup})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","ArmGroup");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria9
+Input: Intervention RoA
+Options: control = appelt
+
+Rule: SectionHigh9
+(
+({RoA within Intervention})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","Intervention");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+/*
+Phase: OriginalMarkupTrailcriteria34
+Input: InclusionCriteria RoA
+Options: control = appelt
+
+Rule: SectionHigh11
+(
+({RoA within InclusionCriteria})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+AnnotationSet allanot = doc.getAnnotations();
+AnnotationSet mainsecset = allanot.get("Phase");
+AnnotationSet statusset = allanot.get("OverallStatus");
+AnnotationSet fpset = allanot.get("FirstPosted");
+AnnotationSet lpset = allanot.get("LastPosted");
+Annotation mainsecann = (gate.Annotation)mainsecset.iterator().next();
+Annotation statusann = (gate.Annotation)statusset.iterator().next();
+Annotation fpann = (gate.Annotation)fpset.iterator().next();
+Annotation lpann = (gate.Annotation)lpset.iterator().next();
+String Phase = (String)mainsecann.getFeatures().get("Text");
+String OverAllStatus = (String)statusann.getFeatures().get("Text");
+String FirstPosted = (String)fpann.getFeatures().get("Text");
+String LastPosted = (String)lpann.getFeatures().get("Text");
+features.put("Phase", Phase);
+features.put("OverAllStatus", OverAllStatus);
+features.put("FirstPosted", FirstPosted);
+features.put("LastPosted", LastPosted);
+
+
+features.put("Section","InclusionCriteria");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+*/
+
+Phase: OriginalMarkupTrailcriteria10
+Input: Secondaryoutcome RoA
+Options: control = appelt
+
+Rule: SectionHigh9
+(
+({RoA within Secondaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","Secondaryoutcome");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria11
+Input: Primaryoutcome RoA
+Options: control = appelt
+
+Rule: SectionHigh9
+(
+({RoA within Primaryoutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","Primaryoutcome");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}
+
+Phase: OriginalMarkupTrailcriteria12
+Input: OtherOutcome RoA
+Options: control = appelt
+
+Rule: SectionHigh9
+(
+({RoA within OtherOutcome})
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("RoA");
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+features.put("Section","OtherOutcome");
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"FinalRoA",features);
+}
+}

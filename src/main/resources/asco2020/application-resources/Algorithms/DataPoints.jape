@@ -1,0 +1,17 @@
+ 
+Phase: AuthorPhase
+Input:  Token
+Options: control = once
+
+Rule: authorRule
+(	
+	({Token.string=="First Author:"})
+	(  
+	(({Token})*)
+	):authorName  
+	({Token.string==","}) 
+):total
+-->
+:authorName.AuthorName = {rule = "authorRule",Text=:authorName@cleanString}
+
+

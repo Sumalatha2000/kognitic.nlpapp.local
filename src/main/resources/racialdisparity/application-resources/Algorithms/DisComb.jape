@@ -1,0 +1,20 @@
+Phase: datapoint
+Input: racial Token negation
+Options: control = appelt
+
+Rule: comb
+(
+({racial})
+):line
+-->
+:line.RacialDisparity = {Rule = "comb", Text = :line@cleanString}
+
+
+Rule:comb2
+(
+  ({racial})
+  ({Token})?
+  {negation}
+ ):line
+-->
+:line.RacialDisparity = {Rule = "comb2", Text = :line@cleanString}

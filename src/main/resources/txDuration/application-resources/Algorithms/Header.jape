@@ -1,0 +1,107 @@
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+Phase: CoomaEnd
+Input: Token
+Options: control = appelt
+
+Rule: Comma
+(
+({Token.string == ","}):line
+)
+-->
+:line.Comma = {Rule = "Comma"}
+
+Rule: timetodiseasep
+(
+({Token.string ==~ "(?i)time"}{Token.string ==~ "(?i)to"}{Token.string ==~ "(?i)disease"}{Token.string ==~ "(?i)Progression"}):line
+)
+-->
+:line.TTDP = {Rule = "Comma"}
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Ecog
+(
+{Lookup.majorType == "ecog"}
+):Heading
+-->
+:Heading.Ecog = {Ecog = :Heading@cleanString, Rule = "Ecog"}
+
+Rule: Criteria10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Criteria10", Text = :criteria@cleanString}
+
+Rule: therapy
+(
+{Lookup.majorType == "therapy"}
+):therapy
+-->
+:therapy.tpy = {Rule = "therapy", Text = :therapy@cleanString}
+
+Rule: duration
+(
+{Lookup.majorType == "duration"}
+):duration
+-->
+:duration.duration = {Rule = "duration", Text = :duration@cleanString}
+
+Phase: SectionEnd
+Input: oversight_info
+Options: control = appelt
+
+Rule: OsInfo
+(  
+{oversight_info}
+):end
+-->  
+:end.OversightInfo = {rule = "OsInfo"}
+
+Phase: RemoveTokenTTDP
+Input: TTDP
+Options: control = appelt
+Rule:RemoveTokenEG
+(
+({TTDP}):dele
+):subsect
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("dele");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet RemoveToken = totalset.get("RemoveToken");
+inputAS.removeAll(totalset);
+}
+}

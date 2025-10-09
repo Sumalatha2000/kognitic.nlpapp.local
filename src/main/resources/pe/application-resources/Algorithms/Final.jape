@@ -1,0 +1,23 @@
+Phase: SingleDrug
+Input: Singledrug Token
+Options: control = appelt
+
+Rule:RoAComb
+(
+({Singledrug}):drug
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+AnnotationSet UnitSet = (AnnotationSet)units.get("Singledrug");
+
+ArrayList ulist = new ArrayList(UnitSet);
+Collections.sort(ulist,new OffsetComparator());
+for(Iterator iterator = ulist.iterator();iterator.hasNext();)
+{
+Annotation unitAnn = (Annotation)iterator.next();
+gate.FeatureMap features = unitAnn.getFeatures();
+
+outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"Finalpe",features);
+}
+}

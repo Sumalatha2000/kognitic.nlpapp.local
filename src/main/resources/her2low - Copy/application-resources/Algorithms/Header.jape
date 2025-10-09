@@ -1,0 +1,48 @@
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Headings
+(
+{Lookup.majorType == "her"}
+):Heading
+-->
+:Heading.Her2Low = {Rule = "Headings", Text = :Heading@cleanString, Rule = "Headings"}
+
+Rule: Headings10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Headings10", Text = :criteria@cleanString}

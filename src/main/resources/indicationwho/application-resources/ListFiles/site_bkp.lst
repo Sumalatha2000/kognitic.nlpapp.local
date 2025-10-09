@@ -1,0 +1,336 @@
+Hematological
+B-cell
+Hairy Cell
+Mast Cell
+Myelodysplastic
+Richter
+T-cell
+Large-cell
+Blastic Plasmacytoid
+Central Nervous System
+Hodgkin
+Follicular
+Mantle Cell
+Marginal Zone
+NK-cell
+Non-Hodgkin
+Small
+Macroglobulinemia
+Lymphoplasmacytic
+Multiple
+Plasma Cell
+Thrombocythemia
+Myeloproliferative
+Bone
+Ewing
+Giant Cell
+Brain
+Breast
+Adrenocortical
+Carcinoid
+Endocrine
+Neuroendocrine
+Parathyroid
+Thyroid
+Esophageal
+Gastroesophageal Junction
+Eye
+Abdominal
+Anal
+Appendix
+Biliary Tract
+Colorectal
+Gallbladder
+Gastric
+Gastrointestinal
+Gastrointestinal Stromal
+Pancreatic
+Bladder
+Genitourinary
+Kidney
+Penile
+Prostate
+Renal Cell
+Testicular
+Wilms
+Germ Cell
+Cervical
+Endometrial
+Fallopian Tube
+Gynecologic
+Ovarian
+Peritoneal
+Vaginal
+Vulvar
+Adenoid Cystic
+Cutaneous
+Head and Neck
+Nasopharyngeal
+Hepatocellular
+Liver
+Lung
+Basal Cell
+Merkel Cell
+Non-melanoma
+Skin
+Desmoid
+Desmoplastic
+Kaposi
+Soft Tissue
+Synovial
+Solid
+Squamous Cell
+Thymic
+HPV
+MSI-H
+NTRK
+Abdomen
+Abdominal
+Acute
+Adenocystic
+Adenoid Cystic
+Adrenal
+Adrenocortical
+Adrenocortical Cortex
+Anal
+Anus
+Anaplastic
+Angiosarcoma
+Hemangiosarcoma
+Appendiceal
+Appendix
+Astrocytoma
+B-cell
+Basal Cell
+Bile Duct
+"Bile Tract	"
+Biliary
+Biliary Tract
+Cholangiocellular
+Cholangiolar
+Bladder
+Transitional cell
+Urothelial
+Urinary
+Urinary Tract
+Ureteral
+Urethral
+Blastic Plasmacytoid
+Bone
+Brain
+Pituitary
+Breast
+Ductal
+Lobular
+Mammary
+Carcinoid
+Central Nervous System
+CNS
+Cervical
+Cervix
+Chondrosarcoma
+Chordoma
+Colon
+Colorectal
+Rectal
+Rectum
+Cutaneous
+Dendritic-cell
+Desmoid
+Desmoplastic
+Diffuse Large
+Endocrine
+Endometrial
+Endometrium
+Eosinophilic
+Epithelial
+Esophageal
+Esophagus
+Oesophageal
+Oesophagus
+Essential
+Ewing
+Eye
+Ocular
+Fallopian Tube
+Follicle
+Follicular
+Gallbladder
+Gastric
+Stomach
+Cardioesophageal
+Esophagogastric
+Gastro-oesophageal
+Gastroesophageal
+GE Junction
+Oesophagogastric
+Digestive
+Gastrointestinal
+Intestine
+Gastrointestinal Stromal
+Genitourinary
+Urogenital
+Urologic
+Germ Cell
+Choriocarcinoma
+Gestational Trophoblastic
+Giant Cell
+{Grade IV} {Astrocytoma}
+{Grade IV} {Glioma}
+Glioblastoma
+Glioblastomamultiforme
+Glial
+Glioma
+Gynecologic
+Hairy-Cell
+{Head} {AND/OR} {Neck}
+Head
+Hypopharyngeal
+Laryngeal
+Larynx
+Neck
+Oral
+Oral Cavity
+Oropharyngeal
+Oropharynx
+Salivary Gland
+Blood
+Hematologic
+Hematological
+Hematopoietic
+Hepatoblastoma
+Hepatocellular
+Hepatoma
+High
+NOPREFIX {Hodgkin}
+HPV Positive
+HPV Related
+Human Papillomavirus Positive
+Human Papillomavirus Related
+Kaposi
+Collecting Duct
+Kidney
+Renal
+Large-cell
+Leiomyosarcoma
+Leukaemia
+Leukaemias
+Leukemia
+Leukemias
+Liposarcoma
+Hepatic
+Liver
+Lung
+Lymphoblastic
+Lymphocytic
+Lymphoid
+Lymphoma
+Lymphomas
+Lymphoproliferative
+Lymphoplasmacytic
+Lymphoplasmacytoid
+Macroglobulinemia
+Mantle-Cell 
+Marginal-Zone 
+Mast-Cell
+Medulloblastoma
+NOPREFIX{Melanoma}
+Meningioma
+Merkel Cell
+Trabecular
+Mesothelioma
+dMMR
+Microsatellite Instability
+Microsatellite Instability-High
+Mismatch Repair Deficient
+Multiple
+Myelodysplasia
+Myelodysplastic
+Myelofibrosis
+Granulocytic
+Myeloblastic
+Myelogenous
+Myeloid
+Non-lymphocytic
+Myeloma
+Myelomas
+Myelomonocytic
+Myeloproliferative
+Nasopharyngeal
+Nasopharynx
+Neuroblastoma
+Gastro-entero-pancreatic
+Neuroendocrine
+Neutrophilic
+NK-cell
+Non-Hodgkin
+Non-melanoma
+Non-small Cell
+Non-squamous Cell
+Neurotrophic Tyrosine Receptor Kinase
+Osteogenic
+Osteoid
+Osteosarcoma
+Dysgerminoma
+Ovarian
+Ovaries
+Ovary
+Adenopancreatic
+Glucagonoma
+Islet cell
+Pancreas
+Pancreatic
+Paraganglioma
+Parathyroid
+Penile
+Penis
+Peripheral
+Peritoneal
+Peritoneum
+Pheochromocytoma
+Plasma-Cell
+Polycythemia Vera
+Primary Mediastinal
+Promyelocytic
+Prostate
+Prostatic
+Renal Cell
+Retinal
+Retinoblastoma
+Rhabdomyosarcoma
+Richter
+Sarcoma
+Sarcomas
+Skin
+Small
+NOPREFIX{Small-cell}
+Small-cell
+Small Round Cell
+Small-round-cell
+Soft Tissue
+Solid
+Squamous-cell
+Squamous Cell 
+Syndrome
+Synovial
+T-cell
+Seminoma
+Testicular
+Thrombocythemia
+Thrombocytosis
+Thymic
+Thyroid
+Triple-Negative
+Vagina
+Vaginal
+Vulva
+Vulvar
+Waldenstrom
+Nephroblastoma
+Wilm's
+Thymoma
+Colonic
+Intestinal
+Bone Marrow
+Pulmonary
+Thoracic
