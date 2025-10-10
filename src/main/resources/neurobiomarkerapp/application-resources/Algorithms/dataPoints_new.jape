@@ -1,0 +1,282 @@
+Phase: Sections
+Input: Objectives SectionEnd Token
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionEnd})
+({Token.string == "-"})?
+({Objectives})
+({Token.string == ":"})?
+({SectionEnd})
+):Subsect
+-->
+:Subsect.ObjectivesHeading = {Rule = "SubSec", Heading = :Subsect@cleanString}
+
+Phase: Sections4
+Input: ObjectivesHeading Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({ObjectivesHeading})
+(({Sentence})*):maincontent
+({ObjectivesHeading})
+):content
+-->
+:content.PrimaryObjective = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+Phase: Sections3234
+Input: OverallStatus PrimaryObjective Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({PrimaryObjective})
+(({Sentence})*):maincontent
+({OverallStatus})
+):content
+-->
+:maincontent.SecondaryObjective = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+
+
+Phase: Sections2
+Input: SectionCriteria SectionEnd Token
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionEnd})
+({Token.string == "-"})?
+({SectionCriteria})
+({Token.string == ":"})?
+({SectionEnd})
+):Subsect
+-->
+:Subsect.SectionHeading = {Rule = "SubSec", Heading = :Subsect@cleanString}
+
+Phase: Sections3
+Input: SectionHeading Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionHeading})
+(({Sentence})*):maincontent
+({SectionHeading})
+):content
+-->
+:content.InclusionCriteria = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+Phase: Sections323
+Input: Gender InclusionCriteria Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({InclusionCriteria})
+(({Sentence})*):maincontent
+({Gender})
+):content
+-->
+:maincontent.ExlusionCriteria = {Rule = "SubSec", Heading = :maincontent@cleanString}
+
+Phase: OriginalMarkup234
+Input: LagKeyWords postNegation preNeg SentEnd BreakPoint Brekwords
+Options: control = appelt
+
+Rule:DataPoints2
+(
+    (
+       
+        ({LagKeyWords})[1,5]
+		({postNegation})?
+    )
+):disease
+-->
+{ 
+ AnnotationSet disease = (AnnotationSet)bindings.get("disease"); 
+ AnnotationSet DiseaseSet =(AnnotationSet)disease.get("LagKeyWords");
+ AnnotationSet PostNegSet =(AnnotationSet)disease.get("postNegation");
+ 
+ Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+ String Finding = (String)headann.getFeatures().get("Finding");
+ 
+ 
+ 
+ boolean flag = false;
+ if(PostNegSet !=null && !PostNegSet.isEmpty())
+   flag = true;   
+ int size,count=1;
+ ArrayList disList = new ArrayList(DiseaseSet);
+ Collections.sort(disList, new OffsetComparator());
+ size = disList.size();
+ for(Iterator iterator = disList.iterator();iterator.hasNext();count++)
+ {
+ Annotation diseaseAnn =(Annotation)iterator.next();	
+ gate.FeatureMap features = diseaseAnn.getFeatures();
+ features.put("Rule","DataPoints2");
+  if(count==size && flag ==true)
+	features.put("Finding","Negative");
+  outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"AllLAGKeyWord",features);
+ }
+}
+
+Phase: OriginalMarkup3
+Input: LagKeyWords SentEnd BreakPoint Brekwords Doubt
+Options: control = appelt
+
+Rule:Doubts
+(
+    (
+        ({Doubt})?       
+         ({LagKeyWords})[1,5]
+		({Doubt})?
+    )
+):disease
+-->
+{ 
+ AnnotationSet disease = (AnnotationSet)bindings.get("disease"); 
+ AnnotationSet DiseaseSet =(AnnotationSet)disease.get("LagKeyWords");
+ 
+ Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+ String Finding = (String)headann.getFeatures().get("Finding");
+ 
+ int count=1;
+ ArrayList disList = new ArrayList(DiseaseSet);
+ Collections.sort(disList, new OffsetComparator());
+
+ for(Iterator iterator = disList.iterator();iterator.hasNext();count++)
+ {
+ Annotation diseaseAnn =(Annotation)iterator.next();	 
+ gate.FeatureMap features = diseaseAnn.getFeatures();
+ AnnotationSet DoubtSet =(AnnotationSet)disease.get("Doubt");
+ features.put("Rule","Doubts");
+  if(DoubtSet!=null&&!DoubtSet.isEmpty()){
+  features.put("Finding","None");
+  }else{
+  features.put("Finding",Finding);
+  }
+  outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"AllLAGKeyWord",features);
+ }
+}
+
+Phase: OriginalMarkup
+Input: LagKeyWords SentEnd BreakPoint Brekwords PositiveWords
+Options: control = appelt
+
+Rule:DataPoints
+(
+    (
+        ({PositiveWords})?       
+         ({LagKeyWords})[1,5]
+		({PositiveWords})?
+    )
+):disease
+-->
+{ 
+ AnnotationSet disease = (AnnotationSet)bindings.get("disease"); 
+ AnnotationSet DiseaseSet =(AnnotationSet)disease.get("LagKeyWords");
+ 
+ int count=1;
+ ArrayList disList = new ArrayList(DiseaseSet);
+ Collections.sort(disList, new OffsetComparator());
+
+ for(Iterator iterator = disList.iterator();iterator.hasNext();count++)
+ {
+ Annotation diseaseAnn =(Annotation)iterator.next();	 
+ gate.FeatureMap features = diseaseAnn.getFeatures();
+ AnnotationSet CompSet =(AnnotationSet)disease.get("PositiveWords");
+ features.put("Rule","DataPoints");
+  if(CompSet!=null&&!CompSet.isEmpty()){
+  features.put("Finding","Positive");
+  }else{
+    if(features.get("Finding")==null)
+    features.put("Finding","Complementary");
+  }
+  outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"AllLAGKeyWord",features);
+ }
+}
+
+Phase: OriginalMarkup2
+Input: LagKeyWords postNegation preNeg SentEnd BreakPoint Brekwords
+Options: control = appelt
+
+Rule:DataPoints2
+(
+    (
+        ({preNeg})?       
+         ({LagKeyWords})[1,5]
+		({postNegation})?
+    )
+):disease
+-->
+{ 
+ AnnotationSet disease = (AnnotationSet)bindings.get("disease"); 
+ AnnotationSet DiseaseSet =(AnnotationSet)disease.get("LagKeyWords");
+ AnnotationSet PostNegSet =(AnnotationSet)disease.get("postNegation");
+ 
+ Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+ String Finding = (String)headann.getFeatures().get("Finding");
+ 
+ 
+ 
+ boolean flag = false;
+ if(PostNegSet !=null && !PostNegSet.isEmpty())
+   flag = true;   
+ int size,count=1;
+ ArrayList disList = new ArrayList(DiseaseSet);
+ Collections.sort(disList, new OffsetComparator());
+ size = disList.size();
+ for(Iterator iterator = disList.iterator();iterator.hasNext();count++)
+ {
+ Annotation diseaseAnn =(Annotation)iterator.next();	
+ gate.FeatureMap features = diseaseAnn.getFeatures();
+  AnnotationSet PreNegSet =(AnnotationSet)disease.get("preNeg");
+  features.put("Rule","DataPoints2");
+  if(PreNegSet!=null&&!PreNegSet.isEmpty()){
+  features.put("Finding","Negative");
+  }else{
+    if(features.get("Finding")==null)
+    features.put("Finding",Finding);
+  }
+  if(count==size && flag ==true)
+	features.put("Finding","Negative");
+  outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"AllLAGKeyWord",features);
+ }
+}
+
+
+/*
+Phase: Criteria
+Input: InclusionCriteria ExclusionCriteria Sentence
+Options: control = appelt
+
+Rule:DataPoints
+(
+    (
+        ({InclusionCriteria})      
+         (({Sentence})*):content
+		({ExclusionCriteria})
+    )
+):sample
+-->
+{
+String mydocContent = doc.getContent().toString();
+AnnotationSet all = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)all.firstNode().getOffset().longValue();
+int cend = (int)all.lastNode().getOffset().longValue();
+String sentence9 = mydocContent.substring(cstartpos,cend);
+gate.FeatureMap features = Factory.newFeatureMap();
+
+AnnotationSet matchedAnns = bindings.get("content");
+int begOffset = matchedAnns.firstNode().getOffset().intValue();
+int endOffset = matchedAnns.lastNode().getOffset().intValue();
+String mydocContent1 = doc.getContent().toString();
+String matchedString = mydocContent1.substring(begOffset, endOffset);
+
+features.put("Text", matchedString);
+outputAS.add(all.firstNode(),all.lastNode(),"Criteria", features);
+}
+*/

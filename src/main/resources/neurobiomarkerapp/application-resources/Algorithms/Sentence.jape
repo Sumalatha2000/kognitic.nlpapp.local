@@ -1,0 +1,37 @@
+Phase: OriginalMarkupTrail
+Input: brief_summary Token
+Options: control = appelt
+
+Rule: breiftitle
+(
+({brief_summary})
+({Token}):main
+):sample
+-->
+:main.BBBBBBBBBB = {Rule = "breiftitle", Text = :main@cleanString, Finding = "Positive"}
+
+
+Phase: OriginalMarkupTrailcriteria
+Input: ExtractSentence AllLAGKeyWord
+Options: control = appelt
+
+Rule: breiftitle
+(
+({ExtractSentence contains AllLAGKeyWord})
+):sample
+-->
+{
+	String mydocContent=doc.getContent().toString();
+	AnnotationSet UnitSet = (AnnotationSet)bindings.get("sample");
+	AnnotationSet preUnitSet = UnitSet.get("AllLAGKeyWord");
+	Annotation preunitann = (Annotation)preUnitSet.iterator().next();
+	FeatureMap features=Factory.newFeatureMap();
+	features.put("KeyWord",preunitann.getFeatures().get("Text")); 
+	features.put("Finding",preunitann.getFeatures().get("Finding"));
+	gate.AnnotationSet valueSet =UnitSet.get("sample");
+	int begOffset = valueSet.firstNode().getOffset().intValue();
+	int endOffset = valueSet.lastNode().getOffset().intValue();
+	String value = mydocContent.substring(begOffset,endOffset);
+	features.put("Value1",value);
+	outputAS.add(UnitSet.firstNode(),UnitSet.lastNode(),"AAAAAAAAAAA",features);    
+}

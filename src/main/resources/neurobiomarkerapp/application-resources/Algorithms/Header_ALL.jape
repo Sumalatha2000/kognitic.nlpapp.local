@@ -1,0 +1,139 @@
+Phase: SectionEnd123
+Input: Token
+Options: control = appelt
+Rule: endline
+(
+({Token.string == "L"}{Token.string == "19"}{Token.string == "TNFα"}):line
+)
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Phase: SectionEnd1234
+Input: RemoveToken
+Options: control = appelt
+Rule: removebreakline
+(
+{RemoveToken}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet RemoveToken = totalset.get("RemoveToken");
+inputAS.removeAll(totalset);
+if (RemoveToken != null && !RemoveToken.isEmpty()){
+ArrayList flist = new ArrayList(RemoveToken);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"RemoveToken",features);
+}
+}
+}
+}
+
+Phase: ALKTokenRemove
+Input: Token
+Options: control = appelt
+Rule: endline
+(
+(({Token.string ==~ "(?i)alk"})|({Token.string ==~ "(?i)Alkaline"}))
+({Token.string == "."})?
+(({Token.string ==~ "(?i)Phosph"})|({Token.string ==~ "(?i)Phos"})|({Token.string ==~ "(?i)Phosphatase"})|({Token.string ==~ "(?i)Phospate"}))
+):line
+
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Phase: SectionEnd1234
+Input: RemoveToken
+Options: control = appelt
+Rule: removebreakline
+(
+{RemoveToken}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet RemoveToken = totalset.get("RemoveToken");
+inputAS.removeAll(totalset);
+if (RemoveToken != null && !RemoveToken.isEmpty()){
+ArrayList flist = new ArrayList(RemoveToken);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"RemoveToken",features);
+}
+}
+}
+}
+
+
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+Phase: SpecialChar
+Input: Token SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({Token.string == "-"}{SpaceToken}):br
+)
+-->
+:br.BreakPoint = {Rule = "endline"}
+
+Rule: TagComma
+(
+	{Token.string == ","}
+) :decimalNumber
+-->
+:decimalNumber.Comma1 = {Rule = "Comma"}
+
+Rule: TagComma2
+(
+	{Token.string == "("}
+) :decimalNumber
+-->
+:decimalNumber.brace1 = {Rule = "TagComma2"}
+
+Rule: TagComma3
+(
+	{Token.string == ")"}
+) :decimalNumber
+-->
+:decimalNumber.brace2 = {Rule = "TagComma3"}

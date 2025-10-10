@@ -1,0 +1,286 @@
+Phase: SectionEnd123
+Input: Token
+Options: control = appelt
+Rule: endline
+(
+({Token.string == "L"}{Token.string == "19"}{Token.string == "TNFα"}):line
+)
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Phase: SectionEnd1234
+Input: RemoveToken
+Options: control = appelt
+Rule: removebreakline
+(
+{RemoveToken}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet RemoveToken = totalset.get("RemoveToken");
+inputAS.removeAll(totalset);
+if (RemoveToken != null && !RemoveToken.isEmpty()){
+ArrayList flist = new ArrayList(RemoveToken);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"RemoveToken",features);
+}
+}
+}
+}
+
+Phase: ALKTokenRemove
+Input: Token
+Options: control = appelt
+
+Rule: endline
+(
+(({Token.string ==~ "(?i)alk"})|({Token.string ==~ "(?i)Alkaline"}))
+({Token.string == "."})?
+(({Token.string ==~ "(?i)Phosph"})|({Token.string ==~ "(?i)Phos"})|({Token.string ==~ "(?i)Phosphatase"})|({Token.string ==~ "(?i)Phospate"}))
+):line
+
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Rule: removePR
+(
+(({Token.string == "("})|({Token.string == "PR"})|({Token.string == ")"}))
+):line
+
+-->
+:line.RemoveToken = {Rule = "endline"}
+
+Phase: SectionEnd1234
+Input: RemoveToken
+Options: control = appelt
+Rule: removebreakline
+(
+{RemoveToken}
+):fh
+-->
+{
+AnnotationSet tdset = (AnnotationSet)bindings.get("fh");
+if(tdset != null){
+AnnotationSet totalset = inputAS.getContained(tdset.firstNode().getOffset(),tdset.lastNode().getOffset());
+AnnotationSet RemoveToken = totalset.get("RemoveToken");
+inputAS.removeAll(totalset);
+if (RemoveToken != null && !RemoveToken.isEmpty()){
+ArrayList flist = new ArrayList(RemoveToken);
+Collections.sort(flist,new OffsetComparator());
+for(Iterator occuranceIterator = flist.iterator();occuranceIterator.hasNext();)
+{
+Annotation occuranceAnn = (Annotation)occuranceIterator.next();
+gate.FeatureMap features = occuranceAnn.getFeatures();
+outputAS.add(occuranceAnn.getStartNode(),occuranceAnn.getEndNode(),"RemoveToken",features);
+}
+}
+}
+}
+
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Headings
+(
+{Lookup.majorType == "Lag"}
+):Heading
+-->
+:Heading.LagKeyWords = {Rule = "Headings", Text = :Heading@cleanString, Finding = "Positive", Rule = "Headings"}
+
+Rule: postive
+(
+{Lookup.majorType == "pos"}
+):Heading
+-->
+:Heading.PositiveWords = {Rule = "postive", Text = :Heading@cleanString}
+
+Rule: postNeg
+(
+{Lookup.majorType == "postNeg"}
+):rote
+-->
+:rote.postNegation = {Rule = "postNeg", Text = :rote@cleanString}
+
+Rule: complementary
+(
+{Lookup.majorType == "comp"}
+):rote
+-->
+:rote.Complementary = {Rule = "complementary", Text = :rote@cleanString}
+
+Rule: preNeg
+(
+{Lookup.majorType == "preNeg"}
+):phm
+-->
+:phm.preNeg = {Rule = "preNeg", Text = :phm@cleanString}
+
+Rule: treat
+(
+{Lookup.majorType == "treat"}
+):unit
+-->
+:unit.treat = {Rule = "treat", Text = :unit@cleanString}
+
+Rule: inclcom
+(
+{Lookup.majorType == "inclcom"}
+):unit
+-->
+:unit.inclcom = {Rule = "inclcom", Text = :unit@cleanString}
+
+Rule: doubt
+(
+{Lookup.majorType == "doubt"}
+):unit
+-->
+:unit.Doubt = {Rule = "doubt", Text = :unit@cleanString}
+
+Phase: SpecialChar
+Input: Token SpaceToken
+Options: control = appelt
+
+Rule: TagComma
+(
+	{Token.string == ","}
+) :decimalNumber
+-->
+:decimalNumber.Comma1 = {Rule = "Comma"}
+
+Rule: TagComma2
+(
+	{Token.string == "("}
+) :decimalNumber
+-->
+:decimalNumber.brace1 = {Rule = "TagComma2"}
+
+Rule: TagComma3
+(
+	{Token.string == ")"}
+) :decimalNumber
+-->
+:decimalNumber.brace2 = {Rule = "TagComma3"}
+
+Phase: SectionHeading2
+Input: Lookup
+Options: control = brill
+
+Rule: Headings9
+(
+{Lookup.majorType == "brekwords"}
+):brekwords
+-->
+:brekwords.Brekwords = {Rule = "Headings9", Text = :brekwords@cleanString}
+
+Rule: Headings10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Headings10", Text = :criteria@cleanString}
+
+Rule: Headings11
+(
+{Lookup.majorType == "object"}
+):object
+-->
+:object.Objectives = {Rule = "Headings10", Text = :object@cleanString}
+
+
+Phase: SectionHeading3
+Input: Split
+Options: control = brill
+Rule: endline2
+(
+({Split.kind == "internal"}):br
+)
+-->
+:br.BreakPoint = {Rule = "endline2"}
+
+Phase: PhaseAnnot
+Input: phase
+Options: control = brill
+Rule: PhaseRule
+({phase}):br
+-->
+:br.Phase = {Rule = "PhaseRule",Text = :br@cleanString}
+
+
+Phase: StatusAnnot
+Input: overall_status
+Options: control = brill
+Rule: StatusRule
+({overall_status}):status
+-->
+:status.OverallStatus = {Rule = "StatusAnnot",Text = :status@cleanString}
+
+Phase: FPAnnot
+Input: study_first_posted
+Options: control = brill
+Rule: FPRule
+({study_first_posted}):fp
+-->
+:fp.FirstPosted = {Rule = "FPRule",Text = :fp@cleanString}
+
+Phase: LPAnnot
+Input: last_update_posted
+Options: control = brill
+Rule: LPRule
+({last_update_posted}):fp
+-->
+:fp.LastPosted = {Rule = "LPRule",Text = :fp@cleanString}
+
+Phase: GenderAnnot
+Input: gender
+Options: control = brill
+Rule: GenderRule
+({gender}):fp
+-->
+:fp.Gender = {Rule = "GenderRule",Text = :fp@cleanString}
+
+Phase: Negative
+Input: Token SpaceToken
+Options: control = brill
+Rule: GenderRule
+({Token.string == "-"}{SpaceToken.kind == "space"}):fp
+-->
+:fp.postNegation = {Rule = "NewNegRule",Text = :fp@cleanString}
