@@ -1,0 +1,58 @@
+Phase: Seg2
+Input: Seg Token
+Options: control = appelt
+
+Rule:SubSec
+(
+(({Seg})({Token})({Seg}))|({Seg})
+):Subsect
+-->
+:Subsect.Segmentation = {Rule = "SubSec", Text = :Subsect@cleanString}
+
+
+Phase: OriginalMarkup2
+Input: Indications postNegation preNeg SentEnd Brekwords SectionEnd
+Options: control = appelt
+
+Rule:DataPoints2
+(
+    (
+        ({preNeg})?       
+         ({Indications})[1,5]
+		({postNegation})?
+    )
+):disease
+-->
+{ 
+ AnnotationSet disease = (AnnotationSet)bindings.get("disease"); 
+ AnnotationSet DiseaseSet =(AnnotationSet)disease.get("Indications");
+ AnnotationSet PostNegSet =(AnnotationSet)disease.get("postNegation");
+ 
+ Annotation headann = (gate.Annotation)DiseaseSet.iterator().next();
+ String Finding = (String)headann.getFeatures().get("Finding");
+ 
+ 
+ 
+ boolean flag = false;
+ if(PostNegSet !=null && !PostNegSet.isEmpty())
+   flag = true;   
+ int size,count=1;
+ ArrayList disList = new ArrayList(DiseaseSet);
+ Collections.sort(disList, new OffsetComparator());
+ size = disList.size();
+ for(Iterator iterator = disList.iterator();iterator.hasNext();count++)
+ {
+ Annotation diseaseAnn =(Annotation)iterator.next();	
+ gate.FeatureMap features = diseaseAnn.getFeatures();
+  AnnotationSet PreNegSet =(AnnotationSet)disease.get("preNeg");
+   if(PreNegSet!=null&&!PreNegSet.isEmpty()){
+  features.put("Finding","Negative");
+  }else{
+    if(features.get("Finding")==null)
+    features.put("Finding",Finding);
+  }
+  if(count==size && flag ==true)
+	features.put("Finding","Negative");
+  outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"AllIndications",features);
+ }
+}

@@ -1,0 +1,77 @@
+Phase: Combination
+Input: Population FinalIndications SectionEnd SentEnd Segmentation EndOfLine
+Options: control = appelt
+
+Rule: SectionHigh12
+(
+({Segmentation})?
+({FinalIndications})
+({Segmentation})?
+):sample
+-->
+{
+AnnotationSet units  = (AnnotationSet)bindings.get("sample");
+int cstartpos = (int)units.firstNode().getOffset().longValue();
+int cend = (int)units.lastNode().getOffset().longValue();
+
+AnnotationSet UnitSet = (AnnotationSet)units.get("FinalIndications");
+
+gate.FeatureMap features = Factory.newFeatureMap();
+
+Annotation headann = (gate.Annotation)UnitSet.iterator().next();
+String FinalText = (String)headann.getFeatures().get("Text");
+String Section = (String)headann.getFeatures().get("Section");
+String Finding = (String)headann.getFeatures().get("Finding");
+
+
+features.put("Text",FinalText);
+features.put("Section",Section);
+features.put("Rule","SectionHigh12");
+features.put("Finding",Finding);
+
+AnnotationSet popSet =(AnnotationSet)units.get("Segmentation");
+if(popSet!=null&&!popSet.isEmpty()){
+Annotation pAnn =(Annotation)popSet.iterator().next();		
+String Segmentation = (String)pAnn.getFeatures().get("Text");
+features.put("Segmentation", Segmentation);
+}
+outputAS.add(units.firstNode(),units.lastNode(),"FinalINP", features);
+}
+
+Rule:comb2	/*  moderately to severely active ulcerative colitis*/
+(
+  (({Segmentation})
+  ({EndOfLine})?  
+  )[1,10]
+  {FinalIndications}
+ ):Primary
+-->
+{
+String mydocContent=doc.getContent().toString();
+AnnotationSet disease = (AnnotationSet)bindings.get("Primary");
+AnnotationSet siteSet = disease.get("Segmentation");
+
+AnnotationSet disorderSet = disease.get("FinalIndications");
+Annotation disorderAnn =(Annotation)disorderSet.iterator().next();	
+String Disease = (String)disorderAnn.getFeatures().get("Text");
+
+ArrayList disList = new ArrayList(siteSet);
+Collections.sort(disList, new OffsetComparator());
+for(Iterator iterator = disList.iterator();iterator.hasNext();)
+{
+gate.FeatureMap features = Factory.newFeatureMap(); 
+Annotation diseaseAnn =(Annotation)iterator.next();
+int cstartPos = (int)diseaseAnn.getStartNode().getOffset().longValue();    
+int cendPos = (int)diseaseAnn.getEndNode().getOffset().longValue();
+String content = mydocContent.substring(cstartPos,cendPos);
+String site = (String)diseaseAnn.getFeatures().get("Text");
+
+String Text = site+" "+Disease;
+
+features.put("Rule","comb2");
+features.put("Segmentation",site);
+features.put("Text",Disease);
+features.put("Finding","Positive");
+outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"FinalINP",features);
+}
+}
