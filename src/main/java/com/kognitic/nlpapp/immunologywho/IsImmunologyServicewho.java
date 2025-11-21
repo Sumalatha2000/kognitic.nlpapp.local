@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 /**
  * 
  * @author Gowrisankar v
@@ -22,5 +24,12 @@ public class IsImmunologyServicewho {
 	public void updateFincalIndicationByNctId(String nctId) {
 		isImmunologyRepositoryWho.updateFinalIndicationByNctId(nctId);
 	}
+	
+	@Transactional
+	public void deleteByNctId(String nctId) {
+		isImmunologyRepositoryWho.deleteByNctId(nctId);
+		isImmunologyRepositoryWho.flush();
+	}
+
 
 }

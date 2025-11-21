@@ -22,6 +22,8 @@ import com.kognitic.nlpapp.iscancerwho.IsCancerReaderWho;
 import com.kognitic.nlpapp.isimmunology.IsImmunologyReader;
 import com.kognitic.nlpapp.lot.LotReader;
 import com.kognitic.nlpapp.neuro.NeuroReader;
+import com.kognitic.nlpapp.neurosymptomswho.NeuroSymptomswho;
+import com.kognitic.nlpapp.neurosymptomswho.NeuroSymptomswhoReader;
 import com.kognitic.nlpapp.neurowho.NeuroReaderWHO;
 import com.kognitic.nlpapp.pe.PeReader;
 import com.kognitic.nlpapp.racialdisparity.RacialDisparityReader;
@@ -105,6 +107,9 @@ public class AnnotationService {
 	
 	@Autowired
 	private NeuroReaderWHO neurowhoReaderWHO;
+	
+	@Autowired
+	private NeuroSymptomswhoReader neuroSymptomswhoReader;
 
 	@Value("${nlp.pipeline.indication.enabled}")
 	private Boolean indicationEnabled;
@@ -168,6 +173,9 @@ public class AnnotationService {
 	
 	@Value("${nlp.pipeline.neurowho.enabled}")
 	private Boolean neurowhoEnabled;
+	
+	@Value("${nlp.pipeline.neurosymptomswho.enabled}")
+	private Boolean neurosymptomswhoEnabled;
 
 	public void handleDocumentAnnotations(String nctId, Document gateDocument) {
 		AnnotatedDocument annotatedDocument = setAnnotatedDocumentDetails(nctId, gateDocument);
@@ -227,6 +235,8 @@ public class AnnotationService {
 			neuroReader.init(annotatedDocument);
 		}else if (neurowhoEnabled) {
 			neurowhoReaderWHO.init(annotatedDocument);
+		} else if (neurosymptomswhoEnabled) {
+			neuroSymptomswhoReader.init(annotatedDocument);
 		}
 
 	}

@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 @Table(name = "immunology_who")
 public class ImmunologyWho {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nctId;
 	private String keyWord;

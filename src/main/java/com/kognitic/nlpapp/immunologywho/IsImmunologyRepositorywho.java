@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface IsImmunologyRepositorywho extends JpaRepository<ImmunologyWho, Integer> {
-	@Procedure(procedureName = "FINAL_INDICATION_BY_NCTID_INDICATION_IMMUNOLOGY_WHO")
+	@Procedure(procedureName = "FINAL_INDICATION_BY_NCTID_INDICATION_IMMUNOLOGY_WHO2")
 	void updateFinalIndicationByNctId(String nctId);
 
+	
+	int deleteByNctId(String nctId);
 }

@@ -39,11 +39,11 @@ public class IsImmunologyReaderwho implements AnnotationReader {
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.isimmunologywhoList = new ArrayList<ImmunologyWho>();
 
-		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
-		excuteStoredProcedure(nctId);
+		// excuteStoredProcedure(nctId);
 	}
 
 	public void readRequiredAnnotationSet() {
@@ -88,6 +88,11 @@ public class IsImmunologyReaderwho implements AnnotationReader {
 	private void excuteStoredProcedure(String nctId) {
 		isImmunologyServicewho.updateFincalIndicationByNctId(nctId);
 	}
+	
+	private void deleteByNctId(String nctId) {
+		isImmunologyServicewho.deleteByNctId(nctId);
+	}
+
 	
 
 

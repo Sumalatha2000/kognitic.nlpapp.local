@@ -70,7 +70,7 @@ public class IndicationsReaderWho implements AnnotationReader {
 					indication.setFinding((String) features.get("Finding"));
 					indication.setSection((String) features.get("Section"));
 					indication.setTconcept((String) features.get("Tconcept"));
-					//indication.setPopulation((String) features.get("Population"));
+					indication.setPopulation((String) features.get("Population"));
 					indicationsList.add(indication);
 				}
 			}
