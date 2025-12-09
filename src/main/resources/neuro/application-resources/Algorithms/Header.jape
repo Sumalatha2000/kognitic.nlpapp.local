@@ -61,6 +61,13 @@ Rule: seg
 -->
 :comb.Seg = {Rule = "seg", Text = :comb@cleanString}
 
+Rule: seg2
+(
+{Lookup.majorType == "seg2"}
+):comb
+-->
+:comb.Seg2 = {Rule = "seg", Text = :comb@cleanString}
+
 Rule: comband
 (
 {Lookup.majorType == "comb"}

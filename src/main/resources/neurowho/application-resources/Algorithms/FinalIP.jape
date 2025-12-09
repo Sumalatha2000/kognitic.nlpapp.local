@@ -45,6 +45,7 @@ AnnotationSet siteSet = disease.get("Seg2");
 AnnotationSet disorderSet = disease.get("FinalIndications");
 Annotation disorderAnn =(Annotation)disorderSet.iterator().next();	
 String Disease = (String)disorderAnn.getFeatures().get("Text");
+String Section = (String)disorderAnn.getFeatures().get("Section");
 ArrayList disList = new ArrayList(siteSet);
 Collections.sort(disList, new OffsetComparator());
 for(Iterator iterator = disList.iterator();iterator.hasNext();)
@@ -60,6 +61,7 @@ features.put("Rule","comb2");
 features.put("Segmentation",site);
 features.put("Text",Disease);
 features.put("Finding","Positive");
+features.put("Section",Section);
 outputAS.add(diseaseAnn.getStartNode(),diseaseAnn.getEndNode(),"FinalINP",features);
 }
 }
