@@ -1,6 +1,6 @@
 Phase: OriginalMarkupTrailcriteria4
 Input: Condition Ca
-Options: control = once
+Options: control = appelt
 
 Rule: SectionHigh4
 (
@@ -25,7 +25,7 @@ outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"NeuroSymptomwho",featu
 
 Phase: OriginalMarkupTrailcriteria41
 Input: OfficialTitle Ca
-Options: control = once
+Options: control = appelt
 
 Rule: SectionHigh4
 (
@@ -50,7 +50,7 @@ outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"NeuroSymptomwho",featu
 
 Phase: OriginalMarkupTrailcriteria42
 Input: BriefTitle Ca
-Options: control = once
+Options: control = appelt
 
 Rule: SectionHigh4
 (
@@ -75,7 +75,7 @@ outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"NeuroSymptomwho",featu
 
 Phase: OriginalMarkupTrailcriteria4
 Input: inclusionCriteria Ca
-Options: control = once
+Options: control = appelt
 
 Rule: SectionHigh4
 (
