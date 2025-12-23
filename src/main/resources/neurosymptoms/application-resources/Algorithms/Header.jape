@@ -1,0 +1,76 @@
+Phase: SectionEnd
+Input: SpaceToken
+Options: control = appelt
+
+Rule: endline
+(
+({SpaceToken.kind == "control"}):line
+)
+-->
+:line.EndOfLine = {Rule = "endline"}
+
+
+Phase: SectionEnd
+Input: Split
+Options: control = appelt
+
+Rule: SEnd
+(  
+{Split.kind == "external"}
+):end
+-->  
+:end.SectionEnd = {rule = "SEnd"}
+
+Rule: SenEnd
+(  
+{Split.kind == "internal"}
+):send
+-->  
+:send.SentEnd = {rule = "SenEnd"}
+
+
+Phase: SectionHeading
+Input: Lookup
+Options: control = appelt
+
+Rule: Ca
+(
+{Lookup.majorType == "cancer"}
+):Heading
+-->
+:Heading.Ca = {Rule = "Ca", Text = :Heading@cleanString}
+
+Rule: Criteria10
+(
+{Lookup.majorType == "criteria"}
+):criteria
+-->
+:criteria.SectionCriteria = {Rule = "Criteria10", Text = :criteria@cleanString}
+
+Phase: Sections2
+Input: SectionCriteria SectionEnd Token
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionEnd})
+({Token.string == "-"})?
+({SectionCriteria})
+({Token.string == ":"})?
+({SectionEnd})
+):Subsect
+-->
+:Subsect.SectionHeading = {Rule = "SubSec", Heading = :Subsect@cleanString}
+
+Phase: Sections3
+Input: SectionHeading Sentence
+Options: control = brill
+
+Rule:SubSec
+(
+({SectionHeading})
+(({Sentence})*):maincontent
+({SectionHeading})
+):content
+-->
+:content.InclusionCriteria = {Rule = "SubSec", Heading = :maincontent@cleanString}
