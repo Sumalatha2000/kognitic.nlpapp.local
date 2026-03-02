@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface ROARepository extends JpaRepository<ROA, Integer> {
 	@Procedure(procedureName = "UPDATE_ROA_STANDARD_KEYWORD")
 	void updateStandardRouteByNct_ID(String nctId);
+	
+	void deleteByNctId(String nctId);
 }

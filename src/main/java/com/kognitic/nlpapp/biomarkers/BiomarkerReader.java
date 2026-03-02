@@ -41,11 +41,15 @@ public class BiomarkerReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.biomarkersList = new ArrayList<Biomarker>();
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("FinalBiomarkerKeyWords");
@@ -91,6 +95,11 @@ public class BiomarkerReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 		biomarkerService.updateFinalKeywordByNctId(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		biomarkerRepository.deleteByNctId(nctId);
+		
 	}
 
 }

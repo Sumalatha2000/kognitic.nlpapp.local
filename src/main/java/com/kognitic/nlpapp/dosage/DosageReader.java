@@ -38,12 +38,14 @@ public class DosageReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.indicationsList = new ArrayList<Dosage>();
-
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		//excuteStoredProcedure(nctId);
 	}
+
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("FinalDrugs");
@@ -87,5 +89,11 @@ public class DosageReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 		dosageService.updateFincalIndicationByNctId(nctId);
+	}
+	
+
+	private void deleteByNctId(String nctId) {
+		 dosageService.deleteByNctId(nctId);
+		
 	}
 }

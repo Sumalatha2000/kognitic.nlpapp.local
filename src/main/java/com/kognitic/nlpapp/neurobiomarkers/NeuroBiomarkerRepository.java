@@ -11,4 +11,6 @@ public interface NeuroBiomarkerRepository extends JpaRepository<NeuroBiomarker, 
 	void updateFinalKeywordByNctId(String nctId);
 	
 	List<NeuroBiomarker> findAllByNctId(String nctId);
+
+	void deleteByNctId(String nctId);
 }

@@ -38,11 +38,15 @@ public class RacialDisparityReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.biomarkersList = new ArrayList<RacialDisparity>();
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("FinalRacialDisparity");
@@ -88,6 +92,11 @@ public class RacialDisparityReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 //		indicationRepository.moveFindalIndicationUpdateTest();
+	}
+	
+	private void deleteByNctId(String nctId) {
+		racialDisparityService.deleteByNctId(nctId);
+		
 	}
 
 }

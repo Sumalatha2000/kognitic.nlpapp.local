@@ -39,10 +39,12 @@ public class IsCancerReader implements AnnotationReader {
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.isCancerList = new ArrayList<CancerType>();
 
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 	}
+
 
 	public void readRequiredAnnotationSet() {
 		isCancerAnnotationSet = defaultAnnotationSet.get("CaTrail");
@@ -80,6 +82,13 @@ public class IsCancerReader implements AnnotationReader {
 			isCancerService.saveAll(isCancerList);
 			isCancerList.clear();
 		}
+	}
+	
+
+	private void deleteByNctId(String nctId) {
+		 isCancerService.deleteByNctID(nctId);
+		// TODO Auto-generated method stub
+		
 	}
 
 }

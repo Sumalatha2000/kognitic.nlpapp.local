@@ -18,4 +18,6 @@ public interface DosageRepository extends JpaRepository<Dosage, Integer> {
 
 	List<Dosage> findAllByNctId(String nctId);
 
+	void deleteByNctId(String nctId);
+
 }

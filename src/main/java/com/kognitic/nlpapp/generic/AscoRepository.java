@@ -15,4 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface AscoRepository extends JpaRepository<Asco, Integer> {
 	List<Asco> findAllByNctId(String nctId);
 
+	void deleteByNctId(String nctId);
+
 }

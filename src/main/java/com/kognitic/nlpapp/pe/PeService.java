@@ -2,8 +2,10 @@ package com.kognitic.nlpapp.pe;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -31,6 +33,12 @@ public class PeService {
 
 	public void updatePeTagByNctId(String nctId) {
 		peRepository.updateFinalPeTagByNctId(nctId);
+	}
+
+	@Transactional
+	public void deleteByNctId(String nctId) {
+		peRepository.deleteByNctId(nctId);
+
 	}
 
 }

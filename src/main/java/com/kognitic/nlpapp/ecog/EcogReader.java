@@ -38,12 +38,15 @@ public class EcogReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.indicationsList = new ArrayList<Ecog>();
-
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		//excuteStoredProcedure(nctId);
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("FinalEcogComb");
@@ -87,5 +90,10 @@ public class EcogReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 		ecogService.updateFincalIndicationByNctId(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		ecogService.deleteByNctId(nctId);
+		
 	}
 }

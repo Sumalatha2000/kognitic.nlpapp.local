@@ -14,4 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NeuroSymptomswhoRepository extends JpaRepository<NeuroSymptomswho, Integer> {
 
+	void deleteByNctId(String nctId);
+
 }

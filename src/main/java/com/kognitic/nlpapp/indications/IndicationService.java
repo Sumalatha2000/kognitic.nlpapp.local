@@ -40,6 +40,9 @@ public class IndicationService {
 		indicationRepository.deleteByNctId(nctId);
 		indicationRepository.flush();
 	}
+	
+
+
 
 
 }

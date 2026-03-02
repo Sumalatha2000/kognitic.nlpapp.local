@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NeuroBiomarkerService {
@@ -26,5 +27,12 @@ public class NeuroBiomarkerService {
 	
 	public void updateFinalKeywordByNctId(String nctId) {
 		biomarkerRepository.updateFinalKeywordByNctId(nctId);
+	}
+	
+	@Transactional
+	public void deleteByNctId(String nctId) {
+		 biomarkerRepository.deleteByNctId(nctId);
+
+		
 	}
 }

@@ -18,4 +18,6 @@ public interface PeRepository extends JpaRepository<Pe, Integer> {
 
 	List<Pe> findAllByNctId(String nctId);
 
+	void deleteByNctId(String nctId);
+
 }

@@ -14,4 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NeuroSymptomsRepository extends JpaRepository<NeuroSymptoms, Integer> {
 
+	@Procedure(procedureName = "UPDATE_NEURO_SYMPTOMS_BY_NCT")
+	void updateNeuroSymptomsByNctId(String nctId);
 }

@@ -38,12 +38,15 @@ public class AssayTypeReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.assayTypeList = new ArrayList<AssayType>();
-
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		assayAnnotationSet = defaultAnnotationSet.get("FinalAssay");
@@ -85,6 +88,10 @@ public class AssayTypeReader implements AnnotationReader {
 	
 	private void excuteStoredProcedure(String nctId) {
 		assayTypeService.updateFinalKeywordByNctId(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		assayTypeService.deleteByNctId(nctId);
 	}
 
 }

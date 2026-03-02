@@ -41,12 +41,15 @@ public class NeuroSymptomswhoReader implements AnnotationReader {
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 
 		this.neuroList = new ArrayList<NeuroSymptomswho>();
-
+		
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 	}
 
+	
 	public void readRequiredAnnotationSet() {
 
 		neuroAnnotationSet = defaultAnnotationSet.get("NeuroSymptomwho"); // check this
@@ -88,4 +91,10 @@ public class NeuroSymptomswhoReader implements AnnotationReader {
 		}
 
 	}
+	
+	private void deleteByNctId(String nctId) {
+		neuroSymptomswhoService.deleteByNctId(nctId);
+		
+	}
+
 }

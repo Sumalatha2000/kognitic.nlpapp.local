@@ -14,4 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IsCancerRepositoryWho extends JpaRepository<CancerTypeWho, Integer> {
 
+	void deleteByNctId(String nctId);
+
 }

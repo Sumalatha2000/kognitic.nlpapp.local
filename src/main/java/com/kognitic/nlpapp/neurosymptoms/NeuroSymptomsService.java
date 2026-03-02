@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -19,5 +20,13 @@ public class NeuroSymptomsService {
 	public Iterable<NeuroSymptoms> saveAll(List<NeuroSymptoms> neuroList) {
 		return neuroSymptomsRepository.saveAll(neuroList);
 	}
+	
+	@Transactional
+	public void updateNeuroSymptomsByNctId(String nctId) {
+	    neuroSymptomsRepository.updateNeuroSymptomsByNctId(nctId);
+	}
 
+	
+
+	
 }

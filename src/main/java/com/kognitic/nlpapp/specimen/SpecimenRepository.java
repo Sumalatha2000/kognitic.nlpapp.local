@@ -17,4 +17,6 @@ public interface SpecimenRepository extends JpaRepository<Specimen, Integer> {
 	@Procedure(procedureName = "UPDATE_SPECIMEN_STANDARD_KEYWORD")
 	void updateFinalKeywordByNctId(String nctId);
 
+	void deleteByNctId(String nctId);
+
 }

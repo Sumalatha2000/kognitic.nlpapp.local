@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.kognitic.nlpapp.roa.ROA;
+import org.springframework.transaction.annotation.Transactional;
 @Service
 
 public class ROAService {
@@ -17,6 +16,11 @@ public class ROAService {
 	
 	public void updateStandardRouteByNct_ID(String nctId) {
 		roaRepository.updateStandardRouteByNct_ID(nctId);
+	}
+
+	@Transactional
+	public void deleteByNctId(String nctId) {
+		roaRepository.deleteByNctId(nctId);
 	}
 
 }

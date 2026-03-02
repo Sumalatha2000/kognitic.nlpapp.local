@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -31,6 +32,13 @@ public class LotService {
 
 	public void updateLoTTagByNctId(String nctId) {
 		lotRepository.updateLoTTagByNctId(nctId);
+	}
+
+	@Transactional
+	public void deleteByNctId(String nctId) {
+		lotRepository.deleteByNctId(nctId);
+
+		
 	}
 
 }

@@ -38,12 +38,15 @@ public class TxdurationReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.indicationsList = new ArrayList<Txduration>();
-
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("Finaltherapy");
@@ -88,4 +91,11 @@ public class TxdurationReader implements AnnotationReader {
 	private void excuteStoredProcedure(String nctId) {
 		txdurationService.updateFinalTxByNctId(nctId);
 	}
+	
+	private void deleteByNctId(String nctId) {
+		 txdurationService.deleteByNctId(nctId);
+
+		
+	}
 }
+

@@ -18,4 +18,6 @@ public interface IndicationRepositoryWho extends JpaRepository<IndicationsWho, I
 
 	List<IndicationsWho> findAllByNctId(String nctId);
 
+	void deleteByNctId(String nctId);
+
 }

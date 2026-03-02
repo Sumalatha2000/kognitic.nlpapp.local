@@ -38,12 +38,15 @@ public class AscoReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.indicationsList = new ArrayList<Asco>();
-
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("PageHeading");
@@ -84,5 +87,10 @@ public class AscoReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 //		indicationService.updateFincalIndicationByNctId(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		indicationService.deletebyNctId(nctId);
+
 	}
 }

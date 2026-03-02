@@ -39,11 +39,14 @@ public class IndicationsReaderWho implements AnnotationReader {
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.indicationsList = new ArrayList<IndicationsWho>();
 
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("FinalIndications");
@@ -90,5 +93,10 @@ public class IndicationsReaderWho implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 		indicationServiceWho.updateFincalIndicationByNctId(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		indicationServiceWho.deleteByNctId(nctId);
+		
 	}
 }

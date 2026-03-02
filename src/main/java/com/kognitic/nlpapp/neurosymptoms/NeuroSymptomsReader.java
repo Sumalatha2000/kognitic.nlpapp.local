@@ -26,12 +26,15 @@ public class NeuroSymptomsReader implements AnnotationReader {
 
 	@Autowired
 	private NeuroSymptomsService neuroSymptomsService;
-
+	
+	
 	private String nctId;
 	private AnnotationSet defaultAnnotationSet;
 
 	private AnnotationSet neuroAnnotationSet;
 	private List<NeuroSymptoms> neuroList;
+	
+	
 
 	@Override
 	public void init(AnnotatedDocument annotatedDocument) {
@@ -45,6 +48,7 @@ public class NeuroSymptomsReader implements AnnotationReader {
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
+		executeStoredProcedure(nctId);
 	}
 
 	public void readRequiredAnnotationSet() {
@@ -86,6 +90,15 @@ public class NeuroSymptomsReader implements AnnotationReader {
 				neuroList.clear();
 			}
 		}
-
 	}
+
+	    private void executeStoredProcedure(String nctId) {
+	        try {
+	            neuroSymptomsService.updateNeuroSymptomsByNctId(nctId); 
+	            //log.info("Stored procedure UPDATE_NEURO_SYMPTOMS_BY_NCT executed for NCT ID: {}", nctId);
+	        } catch (Exception e) {
+	            log.error("Failed to execute stored procedure UPDATE_NEURO_SYMPTOMS_BY_NCT for NCT ID: " + nctId, e);
+	        }
+	    }
 }
+	

@@ -10,4 +10,6 @@ public interface Her2lowRepository extends JpaRepository<Her2low, Integer> {
 	@Procedure(procedureName = "FINAL_INDICATION_UPDATE_TEST")
 	void moveFindalIndicationUpdateTest();
 
+	void deleteByNctId(String nctId2);
+
 }

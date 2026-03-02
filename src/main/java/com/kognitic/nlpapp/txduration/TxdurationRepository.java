@@ -18,4 +18,6 @@ public interface TxdurationRepository extends JpaRepository<Txduration, Integer>
 
 	List<Txduration> findAllByNctId(String nctId);
 
+	void deleteByNctId(String nctId);
+
 }

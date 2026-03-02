@@ -38,12 +38,15 @@ public class SpecimenReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.specimenList = new ArrayList<Specimen>();
-
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		specimenAnnotationSet = defaultAnnotationSet.get("FinalSpecimen");
@@ -86,6 +89,11 @@ public class SpecimenReader implements AnnotationReader {
 	
 	private void excuteStoredProcedure(String nctId) {
 		specimenService.updateFinalKeywordByNctId(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		 specimenService.deleteByNctId(nctId);
+
 	}
 
 }

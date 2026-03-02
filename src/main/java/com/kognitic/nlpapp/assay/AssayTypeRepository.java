@@ -16,5 +16,6 @@ public interface AssayTypeRepository extends JpaRepository<AssayType, Integer> {
 	
 	@Procedure(procedureName = "UPDATE_ASSAY_STANDARD_KEYWORD")
 	void updateFinalKeywordByNctId(String nctId);
+	void deleteByNctId(String nctId);
 
 }

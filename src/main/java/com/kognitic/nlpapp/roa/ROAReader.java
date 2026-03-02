@@ -42,11 +42,14 @@ public class ROAReader implements AnnotationReader {
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.roaList = new ArrayList<ROA>();
 
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+
 
 	public void readRequiredAnnotationSet() {
 		roaAnnotationSet = defaultAnnotationSet.get("FinalRoA");
@@ -88,6 +91,12 @@ public class ROAReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 		roaService.updateStandardRouteByNct_ID(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		 roaService.deleteByNctId(nctId);
+		
+		
 	}
 
 }

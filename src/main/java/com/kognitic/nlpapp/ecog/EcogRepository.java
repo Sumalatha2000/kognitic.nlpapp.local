@@ -18,4 +18,6 @@ public interface EcogRepository extends JpaRepository<Ecog, Integer> {
 
 	List<Ecog> findAllByNctId(String nctId);
 
+	void deleteByNctId(String nctId);
+
 }

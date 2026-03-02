@@ -91,7 +91,9 @@ public class IndicationsReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 		indicationService.updateFincalIndicationByNctId(nctId);
+		
 	}
+	
 	
 	private void deleteByNctId(String nctId) {
 		indicationService.deleteByNctId(nctId);

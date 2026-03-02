@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -17,6 +18,12 @@ public class IsCancerServiceWho {
 
 	public Iterable<CancerTypeWho> saveAll(List<CancerTypeWho> isCancerList) {
 		return isCancerRepositoryWho.saveAll(isCancerList);
+	}
+
+
+	@Transactional
+	public void deleteByNctId(String nctId) {
+		 isCancerRepositoryWho.deleteByNctId(nctId);
 	}
 
 }

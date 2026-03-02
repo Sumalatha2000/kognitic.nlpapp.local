@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class BiomarkerService {
 	@Autowired
@@ -26,5 +28,10 @@ public class BiomarkerService {
 	
 	public void updateFinalKeywordByNctId(String nctId) {
 		biomarkerRepository.updateFinalKeywordByNctId(nctId);
+	}
+	
+	@Transactional
+	public void deleteByNctId(String nctId) {
+	   biomarkerRepository.deleteByNctId(nctId);
 	}
 }

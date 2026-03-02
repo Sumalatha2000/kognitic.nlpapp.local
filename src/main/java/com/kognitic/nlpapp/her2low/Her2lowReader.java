@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kognitic.nlpapp.gateservice.AnnotatedDocument;
 import com.kognitic.nlpapp.gateservice.AnnotationReader;
@@ -39,12 +40,14 @@ public class Her2lowReader implements AnnotationReader {
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.her2lowList = new ArrayList<Her2low>();
 
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
 
+	
 	public void readRequiredAnnotationSet() {
 		Her2lowAnnotationSet = defaultAnnotationSet.get("FinalHer2Low");
 
@@ -85,5 +88,12 @@ public class Her2lowReader implements AnnotationReader {
 	private void excuteStoredProcedure(String nctId) {
 //		her2lowRepository.moveFindalIndicationUpdateTest();
 	}
+	
+	@Transactional
+	private void deleteByNctId(String nctId2) {
+		her2lowRepository.deleteByNctId(nctId2);
+		
+	}
+
 
 }

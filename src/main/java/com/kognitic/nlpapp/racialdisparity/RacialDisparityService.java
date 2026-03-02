@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RacialDisparityService {
@@ -22,5 +23,11 @@ public class RacialDisparityService {
 		List<RacialDisparity> racialDisparities = findAllByNctId(nctId);
 		racialDisparities.forEach(x -> x.setDeleted(true));
 		saveAll(racialDisparities);
+	}
+
+	@Transactional
+	public void deleteByNctId(String nctId) {
+		 racialDisparityRepository.deleteByNctId(nctId);
+	
 	}
 }

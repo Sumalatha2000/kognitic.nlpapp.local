@@ -74,12 +74,12 @@ outputAS.add(unitAnn.getStartNode(),unitAnn.getEndNode(),"NeuroSymptom",features
 }
 
 Phase: OriginalMarkupTrailcriteria4
-Input: inclusionCriteria Ca
+Input: InclusionCriteria Ca
 Options: control = appelt
 
 Rule: SectionHigh4
 (
-({Ca within inclusionCriteria})
+({Ca within InclusionCriteria})
 ):sample
 -->
 {

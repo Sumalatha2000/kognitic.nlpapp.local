@@ -38,12 +38,15 @@ public class LotReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.indicationsList = new ArrayList<Lot>();
-
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("FinalLot");
@@ -88,5 +91,11 @@ public class LotReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 		lotService.updateLoTTagByNctId(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		 lotService.deleteByNctId(nctId);
+
+		
 	}
 }

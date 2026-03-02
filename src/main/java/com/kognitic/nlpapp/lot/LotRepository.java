@@ -18,4 +18,6 @@ public interface LotRepository extends JpaRepository<Lot, Integer> {
 
 	List<Lot> findAllByNctId(String nctId);
 
+	void deleteByNctId(String nctId);
+
 }

@@ -38,12 +38,15 @@ public class PeReader implements AnnotationReader {
 		this.nctId = nctId;
 		this.defaultAnnotationSet = annotatedDocument.getDefaultAnnotationSet();
 		this.indicationsList = new ArrayList<Pe>();
-
+		
+		deleteByNctId(nctId);
 		readRequiredAnnotationSet();
 		processAnnotationSet();
 		saveAnnotationSet();
 		excuteStoredProcedure(nctId);
 	}
+
+	
 
 	public void readRequiredAnnotationSet() {
 		indicationAnnotationSet = defaultAnnotationSet.get("Finalpe");
@@ -87,5 +90,10 @@ public class PeReader implements AnnotationReader {
 
 	private void excuteStoredProcedure(String nctId) {
 		peService.updatePeTagByNctId(nctId);
+	}
+	
+	private void deleteByNctId(String nctId) {
+		peService.deleteByNctId(nctId);
+
 	}
 }

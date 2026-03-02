@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 /**
  * 
  * @author Gowrisankar v
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Service;
 public class AssayTypeService {
 	@Autowired
 	private AssayTypeRepository assayTypeRepository;
-
 	public Iterable<AssayType> saveAll(List<AssayType> isCancerList) {
 		return assayTypeRepository.saveAll(isCancerList);
 	}
@@ -22,5 +23,11 @@ public class AssayTypeService {
 	public void updateFinalKeywordByNctId(String nctId) {
 		assayTypeRepository.updateFinalKeywordByNctId(nctId);
 	}
+	@Transactional
+	public void deleteByNctId(String nctId) {
+	    assayTypeRepository.deleteByNctId(nctId);
+	}
+
 
 }
+

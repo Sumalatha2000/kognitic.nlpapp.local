@@ -29,4 +29,11 @@ public class AscoService {
 		saveAll(indications);
 	}
 
+	public void deletebyNctId(String nctId) {
+		 indicationRepository.deleteByNctId(nctId);	
+		 
+		 indicationRepository.flush();
+		
+	}
+
 }

@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
  *
  */
 @Entity
-@Table(name = "neurology_who")
+@Table(name = "neuro_indication_who")
 public class NeuroWHO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

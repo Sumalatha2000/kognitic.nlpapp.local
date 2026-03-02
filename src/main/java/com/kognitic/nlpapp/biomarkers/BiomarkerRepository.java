@@ -11,4 +11,6 @@ public interface BiomarkerRepository extends JpaRepository<Biomarker, Integer> {
 	void updateFinalKeywordByNctId(String nctId);
 	
 	List<Biomarker> findAllByNctId(String nctId);
+
+	void deleteByNctId(String nctId);
 }
